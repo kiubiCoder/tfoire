@@ -189,6 +189,15 @@ class DBProvider {
     return list;
   }
 
+  //reccuperation du numero d'un exposant
+  Future<List<ExposantModel>> getTelExposantByName(String nomExposant) async {
+    final db = await database;
+    final res = await db?.rawQuery("SELECT Exposant.tel FROM Exposant WHERE Exposant.nom LIKE '%$nomExposant%'");
+    print('================ $res');
+    List<ExposantModel> list = res!.isNotEmpty ? res.map((c) => ExposantModel.fromJson(c)).toList() : [];
+    return list;
+  }
+
   //nombre d'exposant
   Future<int?> countExposant() async {
     var conexion = await database;

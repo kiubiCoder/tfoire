@@ -26,7 +26,7 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
   String critere1 = "";
   String critere2 = "";
   String _selected = "Choisir un exposant";
-
+  var tel;
   //controllers de saaisie
   final TextEditingController controller1 = TextEditingController();
   final TextEditingController controller2 = TextEditingController();
@@ -213,18 +213,23 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: ListTile(
                                   onTap: (){
-                                    return null;
+                                    DBProvider.db.getTelExposantByName(searchResult[index].exposant.toString()).then((value){
+                                      setState(() {
+                                        tel = value.first.tel;
+                                        print('===================== $tel ============= ');
+                                      });
+                                    });
                                     //inbox de l'exposant
-                                    /*Uri _url = Uri.parse(
-                                        "whatsapp://send?phone=" + telAssistance + "&text="
+                                    Uri _url = Uri.parse(
+                                        "whatsapp://send?phone=" + tel + "&text="
                                             "Bonjour !\n"
-                                            "\nCet article m'interesse. Est-il toujours disponible en stock ?\n"
-                                            "==============================\n\n"
+                                            "Cet article m'interesse. Est-il toujours disponible en stock ?\n"
+                                            "==============================\n"
                                             "\n*Article: ${searchResult[index].libelle}* / *${searchResult[index].id}*"
                                             "\n*Exposant: ${searchResult[index].exposant}*"
                                             "\n*Prix: ${searchResult[index].prixBase}*"
                                     );
-                                    myUrlLauncher(_url);*/
+                                    myUrlLauncher(_url);
                                   },
                                   leading: Container(
                                     width: MediaQuery.of(context).size.width * 0.2,
