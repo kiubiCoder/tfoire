@@ -1,12 +1,10 @@
-
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clientfoire/database/DBProvider.dart';
 import 'package:clientfoire/models/AdModel.dart';
 import 'package:clientfoire/ui/17emefoire.dart';
 import 'package:clientfoire/ui/BoutiquesPage.dart';
+import 'package:clientfoire/ui/GalleriePage.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,7 +12,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:clientfoire/Ui/AboutPage.dart';
 import 'package:clientfoire/Ui/AgendaPage.dart';
 import 'package:clientfoire/Ui/ExposantsPage.dart';
-import 'package:clientfoire/Ui/GalleriePage.dart';
 import 'package:clientfoire/Ui/InfosPratiquesPage.dart';
 import 'package:clientfoire/Ui/NewsPage.dart';
 import 'package:lottie/lottie.dart';

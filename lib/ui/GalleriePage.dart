@@ -5,9 +5,12 @@ import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../ApiServices/ApiServices.dart';
 import '../database/DBProvider.dart';
@@ -31,7 +34,7 @@ class _GalleriePageState extends State<GalleriePage> {
   //List<ExposantModel> ex = List.empty();
   List<GalleryModel> photos = List.empty();
   List<GalleryModel> searchResult = List.empty();
-
+  // late int tofIndex;
 
   @override
   void initState() {
@@ -200,12 +203,23 @@ class _GalleriePageState extends State<GalleriePage> {
                     ),
                     itemCount: searchResult.length,
                     itemBuilder: (context, index) {
-                      var photo = searchResult[index];
+                      var tofIndex = index;
                       var id = searchResult[index].id;
                       return Hero(
                         tag: 'logo$id',
                         child: GestureDetector(
-                          onTap: () {
+                          onTap: (){
+                            Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => GalleryWidget(
+                                    photos: photos,
+                                    index: tofIndex,
+                                  ),
+                                )
+                            );
+                          },
+
+                          /*() {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -216,7 +230,7 @@ class _GalleriePageState extends State<GalleriePage> {
                                 ),
                               ),
                             );
-                          },
+                          },*/
                           child: Container(
                             decoration: BoxDecoration(
                                 boxShadow: [
@@ -306,4 +320,76 @@ class _GalleriePageState extends State<GalleriePage> {
     });
   }
 
+ /* void openGallery() => Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => GalleryWidget(
+          photos: photos,
+          index: tofIndex,
+        ),
+      )
+  );*/
+
+}
+
+class GalleryWidget extends StatefulWidget {
+  final PageController pageController;
+  final List<GalleryModel> photos;
+  final int index;
+
+  GalleryWidget({
+    required this.photos,
+    this.index = 0, }):pageController = PageController(initialPage: index);
+
+  @override
+  _GalleryWidgetState createState() => _GalleryWidgetState();
+}
+
+class _GalleryWidgetState extends State<GalleryWidget> {
+
+  late int index = widget.index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        floatingActionButton: GestureDetector(
+          child: Container(
+            child: Text('${widget.photos[index].exposant}',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0
+              ),
+            )
+          ),
+        ),
+        body: Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            PhotoViewGallery.builder(
+              pageController: widget.pageController,
+              itemCount: widget.photos.length,
+              builder: (context, index) {
+                return PhotoViewGalleryPageOptions(
+                  imageProvider: NetworkImage(widget.photos[index].photoLink.toString()),
+                  minScale: PhotoViewComputedScale.contained,
+                  maxScale: PhotoViewComputedScale.contained * 4,
+                );
+              },
+              onPageChanged: (index) => setState(() => this.index = index),
+            ),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Image: ${index + 1} / ${widget.photos.length}',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400
+                ),
+              ),
+            ),
+          ]
+        )
+    );
+  }
 }

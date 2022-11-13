@@ -219,7 +219,7 @@ final List<Map<String, dynamic>> pavillonItems = [
     'textStyle': TextStyle(color: kDeepOrange),
   },
   {
-    'value': 'fazo',
+    'value': 'fazao',
     'label': 'Pavillon FAZAO',
     'icon': Icon(Icons.check,
       color: Colors.deepOrange,

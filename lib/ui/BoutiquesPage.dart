@@ -212,11 +212,25 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ListTile(
+                                  onTap: (){
+                                    return null;
+                                    //inbox de l'exposant
+                                    /*Uri _url = Uri.parse(
+                                        "whatsapp://send?phone=" + telAssistance + "&text="
+                                            "Bonjour !\n"
+                                            "\nCet article m'interesse. Est-il toujours disponible en stock ?\n"
+                                            "==============================\n\n"
+                                            "\n*Article: ${searchResult[index].libelle}* / *${searchResult[index].id}*"
+                                            "\n*Exposant: ${searchResult[index].exposant}*"
+                                            "\n*Prix: ${searchResult[index].prixBase}*"
+                                    );
+                                    myUrlLauncher(_url);*/
+                                  },
                                   leading: Container(
                                     width: MediaQuery.of(context).size.width * 0.2,
                                     child: CachedNetworkImage(
                                       imageUrl: '${searchResult[index].articleImage}',
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.contain,
                                       placeholder: (context, url) => Image.asset(Logo_foire),
                                     ),
                                   ),
