@@ -165,10 +165,21 @@ class _AboutPageState extends State<AboutPage> {
                                 ),
                               ),
                             ),
-                            Center(
-                              child: Text(Copyright + "\n\nDeveloper +22892868204",
-                                style: TextStyle(
-                                  color: Colors.black12
+                            GestureDetector(
+                              onTap: (){
+                                Uri _url = Uri.parse(
+                                    "whatsapp://send?phone=+22892868204&text="
+                                        "Bonjour, Je vous écris depuis l'application de la Foire Togo 2000!"
+                                );
+                                myUrlLauncher(_url);
+                              },
+                              child: Container(
+                                child: Center(
+                                  child: Text(Copyright + "\n\nDevelopper @kiubiCoder",
+                                    style: TextStyle(
+                                      color: Colors.black12
+                                    ),
+                                  ),
                                 ),
                               ),
                             )

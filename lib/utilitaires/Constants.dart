@@ -31,7 +31,7 @@ final oCcy = new NumberFormat("#,###", "en_US");
 //contacts
 final String telAssistance = '+22893022193';
 final String whatsappAssistance = '+22893022193';
-final String APP_VERSION = "1.0.0";
+final String APP_VERSION = "1.0.1";
 final String Copyright = "Copyright @ CETEF 2022";
 String PREFKEY = 'appState';
 String Logo_foire = 'assets/images/ic_foire.png';

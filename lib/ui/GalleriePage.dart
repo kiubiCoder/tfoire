@@ -351,11 +351,25 @@ class _GalleryWidgetState extends State<GalleryWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        // backgroundColor: Colors.white10,
+        // foregroundColor: kDeepOrange,
+        elevation: 0.0,
+        centerTitle: true,
+        title: Text("Gallerie",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25.0,
+            //color: Colors.black54
+          ),
+        ),
+      ),
+      backgroundColor: Colors.white,
         floatingActionButton: GestureDetector(
           child: Container(
             child: Text('${widget.photos[index].exposant}',
               style: TextStyle(
-                color: Colors.white,
+                // color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0
               ),
@@ -366,6 +380,9 @@ class _GalleryWidgetState extends State<GalleryWidget> {
           alignment: Alignment.bottomLeft,
           children: [
             PhotoViewGallery.builder(
+              backgroundDecoration: BoxDecoration(
+                color: Colors.white,
+              ),
               pageController: widget.pageController,
               itemCount: widget.photos.length,
               builder: (context, index) {
@@ -382,7 +399,7 @@ class _GalleryWidgetState extends State<GalleryWidget> {
               child: Text(
                 'Image: ${index + 1} / ${widget.photos.length}',
                 style: TextStyle(
-                    color: Colors.white,
+                    // color: Colors.white,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400
                 ),
