@@ -10,12 +10,13 @@ import 'package:sqflite/sqflite.dart';
 
 import '../models/ArticleModel.dart';
 import '../models/MainAddModel.dart';
+import '../models/NotifModel.dart';
 
 class DBProvider {
   static Database? _database;
   static final DBProvider db = DBProvider._();
-  // int oldversion = 1;
-  // int newversion = 2;
+  int oldversion = 1;
+  int newversion = 2;
 //--no-sound-null-safety
   DBProvider._();
 
@@ -33,7 +34,20 @@ class DBProvider {
   initDB() async {
     Directory? documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'foire2000.db');
-    return await openDatabase(path, version: 1, onOpen: (db) {},
+    return await openDatabase(path, version: oldversion, onOpen: (db) {},
+        onUpgrade: (Database db, int oldversion ,int newversion) async {
+          //creation de la table des prestataires
+          await db.execute('CREATE TABLE Notif('
+              'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+              'dateNotif TEXT,'
+              'title TEXT,'
+              'message TEXT,'
+              'pageCible TEXT'
+              ')'
+          );
+
+          print("===================  MISE A JOUR DE LABASE / NOTIFS OK=========================");
+        },
         onCreate: (Database db, int version) async {
 
           //creation de la table des comparatifs
@@ -390,6 +404,43 @@ class DBProvider {
   Future<int?> countAds() async {
     var conexion = await database;
     final res = Sqflite.firstIntValue(await conexion!.rawQuery("SELECT COUNT(*) FROM Ads"));
+    return res;
+  }
+
+  //=================================================
+  //===================== Notifs ======================
+  //=================================================
+
+  //Insertion des news
+  createNotif(NotifModel notifModel) async {
+    final db = await database;
+    var batch = db?.batch();
+    await deleteAllNotifs().whenComplete(() async{
+      batch?.insert('Notif', notifModel.toJson());
+      await batch?.commit(noResult: true, continueOnError: true);
+    });
+
+  }
+
+  //Suppression des news
+  Future<int?> deleteAllNotifs() async {
+    final db = await database;
+    final res = await db?.rawDelete('DELETE FROM Notif');
+    return res;
+  }
+
+  //Liste des news
+  Future<List<NotifModel>> getAllNotifs() async {
+    final db = await database;
+    final res = await db?.rawQuery("SELECT * FROM Notif ORDER BY id DESC");
+    List<NotifModel> list = res!.isNotEmpty ? res.map((c) => NotifModel.fromJson(c)).toList() : [];
+    return list;
+  }
+
+  //nombre de news
+  Future<int?> countNotifs() async {
+    var conexion = await database;
+    final res = Sqflite.firstIntValue(await conexion!.rawQuery("SELECT COUNT(*) FROM Notif"));
     return res;
   }
 

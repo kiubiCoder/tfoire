@@ -161,7 +161,7 @@ class _NewsPageState extends State<NewsPage> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
+                                  /*Padding(
                                     padding: const EdgeInsets.only(top: 5.0),
                                     child: ReadMoreText(
                                       events[index].libelle.toString(),
@@ -188,7 +188,7 @@ class _NewsPageState extends State<NewsPage> {
                                         fontSize: 18.0,
                                       ),
                                     ),
-                                  ),
+                                  ),*/
                                 ],
                               )
                             ),
@@ -226,8 +226,8 @@ class _NewsPageState extends State<NewsPage> {
           backgroundColor: kDeepOrange.withOpacity(0.5),
           gravity: ToastGravity.CENTER
       );
-      DBProvider.db.deleteAllExposants().whenComplete((){
-        TfoireApiData().getExposantsFromApi().whenComplete(() {
+      DBProvider.db.deleteAllNews().whenComplete((){
+        TfoireApiData().getNewsFromApi().whenComplete(() {
           Fluttertoast.showToast(
               msg: "Mise à jour terminée, veuillez rafraichir la liste !",
               backgroundColor: kDeepOrange.withOpacity(0.5),

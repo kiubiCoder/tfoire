@@ -6,6 +6,7 @@ import 'package:clientfoire/models/ExposantModel.dart';
 import 'package:clientfoire/models/GallerieModel.dart';
 import 'package:clientfoire/models/MainAddModel.dart';
 import 'package:clientfoire/models/NewModel.dart';
+import 'package:clientfoire/models/NotifModel.dart';
 import 'package:clientfoire/models/VersionsModel.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:dio/dio.dart';
@@ -19,7 +20,7 @@ class TfoireApiData{
     var url = API_BASE_URL + 'exposant/list';
     Response response = await Dio().get(url);
     return (response.data as List).map((e){
-      print('exposant $e');
+      //print('exposant $e');
       DBProvider.db.createExposant(ExposantModel.fromJson(e));
     }).toList();
   }
@@ -29,7 +30,7 @@ class TfoireApiData{
     var url = API_BASE_URL + 'agenda/list';
     Response response = await Dio().get(url);
     return (response.data as List).map((e){
-      print('agenda $e');
+      //print('agenda $e');
       DBProvider.db.createEvent(AgendaModel.fromJson(e));
     }).toList();
   }
@@ -39,8 +40,18 @@ class TfoireApiData{
     var url = API_BASE_URL + 'gallerie/list';
     Response response = await Dio().get(url);
     return (response.data as List).map((e){
-      print('gallerie $e');
+      //print('gallerie $e');
       DBProvider.db.createPhoto(GalleryModel.fromJson(e));
+    }).toList();
+  }
+
+  //liste des notifications
+  Future getNotificationsFromApi() async {
+    var url = API_BASE_URL + 'notif/list';
+    Response response = await Dio().get(url);
+    return (response.data as List).map((e){
+      print('notifs $e');
+      DBProvider.db.createNotif(NotifModel.fromJson(e));
     }).toList();
   }
 
@@ -49,7 +60,7 @@ class TfoireApiData{
     var url = API_BASE_URL + 'new/list';
     Response response = await Dio().get(url);
     return (response.data as List).map((e){
-      print('news $e');
+      //print('news $e');
       DBProvider.db.createNew(NewModel.fromJson(e));
     }).toList();
   }
@@ -59,7 +70,7 @@ class TfoireApiData{
     var url = API_BASE_URL + 'ads/list';
     Response response = await Dio().get(url);
     return (response.data as List).map((e){
-      print('ads $e');
+      //print('ads $e');
       DBProvider.db.createAd(AdModel.fromJson(e));
     }).toList();
   }
@@ -69,7 +80,7 @@ class TfoireApiData{
     var url = API_BASE_URL + 'article/list';
     Response response = await Dio().get(url);
     return (response.data as List).map((e){
-      print('Article $e');
+      //print('Article $e');
       DBProvider.db.createArticle(ArticleModel.fromJson(e));
     }).toList();
   }
@@ -79,7 +90,7 @@ class TfoireApiData{
     var url = API_BASE_URL + 'mainad/list';
     Response response = await Dio().get(url);
     return (response.data as List).map((e){
-      print('mainAd $e');
+      //print('mainAd $e');
       DBProvider.db.createMainAd(MainAddModel.fromJson(e));
     }).toList();
   }

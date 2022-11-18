@@ -5,9 +5,9 @@ import 'package:clientfoire/models/AdModel.dart';
 import 'package:clientfoire/ui/17emefoire.dart';
 import 'package:clientfoire/ui/BoutiquesPage.dart';
 import 'package:clientfoire/ui/GalleriePage.dart';
+import 'package:clientfoire/ui/NotifPage.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:clientfoire/Ui/AboutPage.dart';
 import 'package:clientfoire/Ui/AgendaPage.dart';
@@ -36,6 +36,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    //reccuperation des notifications
+    TfoireApiData().getNotificationsFromApi();
+    //reccuperation des pubs
     TfoireApiData().getAllAdsFromApi();
     DBProvider.db.getAllExposant().then((e) => ex = e);
     // TODO: implement initState
@@ -328,11 +331,17 @@ class _HomePageState extends State<HomePage> {
                       //togocel
                       GestureDetector(
                         onTap: (){
-                          Fluttertoast.showToast(
+                          Uri _url = Uri.parse(
+                              "whatsapp://send?phone=+22899050505&text="
+                                  "FOIRE"
+                          );
+                          myUrlLauncher(_url);
+
+                         /* Fluttertoast.showToast(
                               msg: "Disponible à partir du 30 Novembre !",
                               backgroundColor: kDeepOrange.withOpacity(0.5),
                               gravity: ToastGravity.CENTER
-                          );
+                          );*/
                           /*Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (_) => const BuyTicket()
@@ -356,11 +365,16 @@ class _HomePageState extends State<HomePage> {
                       //moov
                       GestureDetector(
                         onTap: (){
-                          Fluttertoast.showToast(
+                          Uri _url = Uri.parse(
+                              "whatsapp://send?phone=+22899050505&text="
+                                  "FOIRE"
+                          );
+                          myUrlLauncher(_url);
+                          /*Fluttertoast.showToast(
                               msg: "Disponible à partir du 30 Novembre !",
                               backgroundColor: kDeepOrange.withOpacity(0.5),
                               gravity: ToastGravity.CENTER
-                          );
+                          );*/
                           /*Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (_) => const BuyTicket()
@@ -447,11 +461,16 @@ class _HomePageState extends State<HomePage> {
         DrawerHeader(
             child: GestureDetector(
               onTap: (){
-                Fluttertoast.showToast(
+                Uri _url = Uri.parse(
+                    "whatsapp://send?phone=+22899050505&text="
+                        "FOIRE"
+                );
+                myUrlLauncher(_url);
+                /*Fluttertoast.showToast(
                     msg: "Aucun PASS disponible car vous n'avez pas encore acheté de Ticket",
                     backgroundColor: kDeepOrange.withOpacity(0.5),
                     gravity: ToastGravity.CENTER,
-                );
+                );*/
                 // Navigator.push(context, MaterialPageRoute(builder: (_)=> ShowTicket()));
               },
               child: Card(
@@ -548,14 +567,19 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(10.0),
           child: GestureDetector(
             onTap: (){
-              Fluttertoast.showToast(
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (_) => const NotifPage()
+                  )
+              );
+              /*Fluttertoast.showToast(
                   msg: "Bientôt disponible",
                   backgroundColor: kDeepOrange.withOpacity(0.5),
                   gravity: ToastGravity.CENTER
-              );
+              );*/
             },
             child: ListTile(
-              title: Text('B to B',
+              title: Text('Notifications',
                 style: TextStyle(
                     color: Colors.black54
                 ),
