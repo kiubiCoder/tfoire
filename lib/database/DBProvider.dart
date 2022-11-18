@@ -7,7 +7,6 @@ import 'package:clientfoire/models/NewModel.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../models/ArticleModel.dart';
 import '../models/MainAddModel.dart';
 import '../models/NotifModel.dart';
@@ -15,10 +14,12 @@ import '../models/NotifModel.dart';
 class DBProvider {
   static Database? _database;
   static final DBProvider db = DBProvider._();
-  int oldversion = 1;
-  int newversion = 2;
-//--no-sound-null-safety
+  int _oldVersion = 1;
+  int _newVersion = 2;
+//en une class singuliere
   DBProvider._();
+  //instance de la base
+  static final DBProvider instance = DBProvider._();
 
   Future<Database?> get database async {
     // If database exists, return database
@@ -30,28 +31,19 @@ class DBProvider {
     return _database;
   }
 
-  // Creation de la base de donnees et de la table actes de sante
+  // Creation de la base de donnees
   initDB() async {
     Directory? documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'foire2000.db');
-    return await openDatabase(path, version: oldversion, onOpen: (db) {},
-        onUpgrade: (Database db, int oldversion ,int newversion) async {
-          //creation de la table des prestataires
-          await db.execute('CREATE TABLE Notif('
-              'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-              'dateNotif TEXT,'
-              'title TEXT,'
-              'message TEXT,'
-              'pageCible TEXT'
-              ')'
-          );
+    return await openDatabase(
+      path, version: 2,
+        onOpen: (db) {},
 
-          print("===================  MISE A JOUR DE LABASE / NOTIFS OK=========================");
-        },
         onCreate: (Database db, int version) async {
 
           //creation de la table des comparatifs
-          await db.execute('CREATE TABLE Agenda('
+          await db.execute(
+                'CREATE TABLE Agenda('
                 'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
                 'titre TEXT,'
                 'libelle TEXT,'
@@ -62,7 +54,8 @@ class DBProvider {
           print("===================  table agenda creee =========================");
 
           //Table Exposant
-          await db.execute('CREATE TABLE Exposant('
+          await db.execute(
+                'CREATE TABLE Exposant('
                 'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
                 'nom TEXT,'
                 'pavillon TEXT,'
@@ -75,7 +68,8 @@ class DBProvider {
           print("===================  table exposant creee =========================");
 
           //Table Gallery
-          await db.execute('CREATE TABLE Gallery('
+          await db.execute(
+                'CREATE TABLE Gallery('
                 'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
                 'photoName TEXT,'
                 'photoLink TEXT,'
@@ -85,7 +79,8 @@ class DBProvider {
           print("===================  table Gallery creee =========================");
 
           //Table News
-          await db.execute('CREATE TABLE New('
+          await db.execute(
+                'CREATE TABLE New('
                 'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
                 'title TEXT,'
                 'libelle TEXT,'
@@ -98,7 +93,8 @@ class DBProvider {
           print("===================  table News creee =========================");
 
           //Table Ads
-          await db.execute('CREATE TABLE Ads('
+          await db.execute(
+                'CREATE TABLE Ads('
                 'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
                 'adLink TEXT,'
                 'title TEXT'
@@ -107,7 +103,8 @@ class DBProvider {
           print("===================  table Ads creee =========================");
 
           //Table du Add principal
-          await db.execute('CREATE TABLE MainAdd('
+          await db.execute(
+              'CREATE TABLE MainAdd('
               'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
               'adLink TEXT,'
               'libelle TEXT'
@@ -116,7 +113,8 @@ class DBProvider {
           print("===================  table mainAdd  =========================");
 
           //Table du Add principal
-          await db.execute('CREATE TABLE Article('
+          await db.execute(
+              'CREATE TABLE Article('
               'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
               'libelle TEXT,'
               'prixBase TEXT,'
@@ -127,7 +125,37 @@ class DBProvider {
           );
           print("===================  tablearticle  =========================");
 
-        });
+          await db.execute(
+              'CREATE TABLE Notif('
+                  'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+                  'dateNotif TEXT,'
+                  'title TEXT,'
+                  'message TEXT,'
+                  'pageCible TEXT'
+                  ')'
+          );
+
+        },
+
+        onUpgrade: (Database db,int _oldVersion ,int _newVersion) async {
+        Database? db = await DBProvider.instance.database;
+        //creation de la table des prestataires
+
+          await db?.execute(
+              'CREATE TABLE Notif('
+              'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+              'dateNotif TEXT,'
+              'title TEXT,'
+              'message TEXT,'
+              'pageCible TEXT'
+              ')'
+          );
+
+
+        print("===================  MISE A JOUR DE LABASE / NOTIFS OK=========================");
+      },
+
+    );
   }
 
   //=================================================
