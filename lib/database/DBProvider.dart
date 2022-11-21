@@ -36,24 +36,8 @@ class DBProvider {
     Directory? documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'foire2000.db');
     return await openDatabase(
-      path, version: 2,
+      path, version: 1,
         onOpen: (db) {},
-
-        onUpgrade: (Database db,int _oldVersion ,int _newVersion) async {
-          //Database? db = await DBProvider.instance.database;
-          //creation de la table des prestataires
-          await db.execute(
-              'CREATE TABLE Notif('
-                  'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-                  'dateNotif TEXT,'
-                  'title TEXT,'
-                  'message TEXT,'
-                  'pageCible TEXT'
-                  ')'
-          );
-
-          print("===================  MISE A JOUR DE LABASE / NOTIFS OK=========================");
-        },
 
         onCreate: (Database db, int version) async {
 
@@ -152,6 +136,24 @@ class DBProvider {
           );
 
         },
+
+        onUpgrade: (Database db,int _oldVersion ,int _newVersion) async {
+        // Database? db = await DBProvider.instance.database;
+        //creation de la table des prestataires
+
+          await db.execute(
+              'CREATE TABLE Notif('
+              'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+              'dateNotif TEXT,'
+              'title TEXT,'
+              'message TEXT,'
+              'pageCible TEXT'
+              ')'
+          );
+
+
+        print("===================  MISE A JOUR DE LABASE / NOTIFS OK=========================");
+      },
 
     );
   }
