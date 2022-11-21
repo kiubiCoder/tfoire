@@ -16,7 +16,8 @@ class DBProvider {
   static final DBProvider db = DBProvider._();
   int _oldVersion = 1;
   int _newVersion = 2;
-//en une class singuliere
+
+  //en une class singuliere
   DBProvider._();
   //instance de la base
   static final DBProvider instance = DBProvider._();
@@ -36,7 +37,7 @@ class DBProvider {
     Directory? documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'foire2000.db');
     return await openDatabase(
-      path, version: 1,
+      path, version: 2,
         onOpen: (db) {},
 
         onCreate: (Database db, int version) async {
@@ -137,7 +138,7 @@ class DBProvider {
 
         },
 
-        onUpgrade: (Database db,int _oldVersion ,int _newVersion) async {
+      onUpgrade: (Database db,int _oldVersion ,int _newVersion) async {
         // Database? db = await DBProvider.instance.database;
         //creation de la table des prestataires
 
@@ -150,8 +151,6 @@ class DBProvider {
               'pageCible TEXT'
               ')'
           );
-
-
         print("===================  MISE A JOUR DE LABASE / NOTIFS OK=========================");
       },
 
