@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clientfoire/database/DBProvider.dart';
@@ -15,6 +17,8 @@ import 'package:clientfoire/Ui/InfosPratiquesPage.dart';
 import 'package:clientfoire/Ui/NewsPage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:clientfoire/ApiServices/ApiServices.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import '../models/ExposantModel.dart';
 
 
@@ -30,7 +34,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   CarouselController carouselController = CarouselController();
-
+  int imIndex = 1;
   List<AdModel> ads = List.empty();
 
   @override
@@ -411,8 +415,78 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         elevation: 0.01,
                         child: Container(
-                          child: CarouselSlider.builder(
-                              itemCount: ads.length,
+                          child: PhotoViewGallery.builder(
+                            backgroundDecoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            itemCount: ads.length,
+                            builder: (context, index) {
+                              Timer(
+                                Duration(seconds: 8), () => setState(() {
+                                if(imIndex < ads.length){
+                                  imIndex++;
+                                }else{
+                                  setState(() {
+                                    imIndex = 1;
+                                  });
+                                }
+                                }),
+                              );
+                              return PhotoViewGalleryPageOptions(
+                                imageProvider: NetworkImage(ads[imIndex].adLink.toString()),
+                                minScale: PhotoViewComputedScale.contained,
+                                maxScale: PhotoViewComputedScale.contained * 4,
+                              );
+                            },
+                          ),
+                          // child: CarouselSlider.builder(
+                          //     itemCount: 0,
+                          //     itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex){
+                          //       return PhotoViewGallery.builder(
+                          //         backgroundDecoration: BoxDecoration(
+                          //           color: Colors.white,
+                          //         ),
+                          //         itemCount: ads.length,
+                          //         builder: (context, index) {
+                          //           return PhotoViewGalleryPageOptions(
+                          //
+                          //             imageProvider: NetworkImage(ads[index].adLink.toString()),
+                          //             minScale: PhotoViewComputedScale.contained,
+                          //             maxScale: PhotoViewComputedScale.contained * 4,
+                          //           );
+                          //         },
+                          //       );
+
+                                /*GestureDetector(
+                                  onTap: (){
+                                    Uri _url = Uri.parse(ads[itemIndex].adLink.toString());
+                                    myUrlLauncher(_url);
+                                  },
+                                  child: CachedNetworkImage(
+                                    imageUrl: ads[itemIndex].adLink.toString(),
+                                    placeholder: (context, url) => Image.asset(Logo_foire),
+                                    fit: BoxFit.contain,
+                                  ),
+                                );*/
+                              // },
+                              // options: CarouselOptions(
+                              //     pageSnapping: true,
+                              //     pauseAutoPlayOnTouch: true,
+                              //     height: MediaQuery.of(context).size.height * 0.30,
+                              //     aspectRatio: 16/9,
+                              //     viewportFraction: 1,
+                              //     initialPage: 0,
+                              //     enableInfiniteScroll: true,
+                              //     autoPlay: true,
+                              //     autoPlayInterval: const Duration(seconds: 5),
+                              //     autoPlayAnimationDuration: const Duration(milliseconds: 1000),
+                              //     autoPlayCurve: Curves.easeInOut,
+                              //     enlargeCenterPage: true,
+                              //     scrollDirection: Axis.horizontal,
+                              //     pauseAutoPlayOnManualNavigate: true
+                              // )
+
+                            /*itemCount: ads.length,
                               itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
                                   GestureDetector(
                                     onTap: (){
@@ -440,8 +514,8 @@ class _HomePageState extends State<HomePage> {
                                   enlargeCenterPage: true,
                                   scrollDirection: Axis.horizontal,
                                   pauseAutoPlayOnManualNavigate: true
-                              )
-                          )
+                              )*/
+                          // )
                         ),
                       ),
                     ),

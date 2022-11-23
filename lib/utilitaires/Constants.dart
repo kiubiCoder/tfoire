@@ -267,7 +267,6 @@ Future timeBaseUpdateJob() async{
                       TfoireApiData().getAllAdsFromApi().whenComplete((){
                         TfoireApiData().getAllArticlesFromApi().whenComplete((){
                           TfoireApiData().getMainAd();
-                          TfoireApiData().getNotificationsFromApi();
                         });
                       });
                     });
