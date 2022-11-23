@@ -50,7 +50,7 @@ class TfoireApiData{
     var url = API_BASE_URL + 'notif/list';
     Response response = await Dio().get(url);
     return (response.data as List).map((e){
-      print('notifs $e');
+      //print('notifs $e');
       DBProvider.db.createNotif(NotifModel.fromJson(e));
     }).toList();
   }

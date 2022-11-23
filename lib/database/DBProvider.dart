@@ -14,8 +14,8 @@ import '../models/NotifModel.dart';
 class DBProvider {
   static Database? _database;
   static final DBProvider db = DBProvider._();
-  int _oldVersion = 1;
-  int _newVersion = 2;
+  /*int _oldVersion = 1;
+  int _newVersion = 2;*/
 
   //en une class singuliere
   DBProvider._();
@@ -37,7 +37,7 @@ class DBProvider {
     Directory? documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'foire2000.db');
     return await openDatabase(
-      path, version: 2,
+      path, version: 1,
         onOpen: (db) {},
 
         onCreate: (Database db, int version) async {
@@ -126,7 +126,7 @@ class DBProvider {
           );
           print("===================  tablearticle  =========================");
 
-          await db.execute(
+          /*await db.execute(
               'CREATE TABLE Notif('
                   'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
                   'dateNotif TEXT,'
@@ -134,11 +134,11 @@ class DBProvider {
                   'message TEXT,'
                   'pageCible TEXT'
                   ')'
-          );
+          );*/
 
         },
 
-      onUpgrade: (Database db,int _oldVersion ,int _newVersion) async {
+      /*onUpgrade: (Database db,int _oldVersion ,int _newVersion) async {
         // Database? db = await DBProvider.instance.database;
         //creation de la table des prestataires
 
@@ -152,7 +152,7 @@ class DBProvider {
               ')'
           );
         print("===================  MISE A JOUR DE LABASE / NOTIFS OK=========================");
-      },
+      },*/
 
     );
   }

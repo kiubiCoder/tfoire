@@ -5,7 +5,6 @@ import 'package:clientfoire/models/AdModel.dart';
 import 'package:clientfoire/ui/17emefoire.dart';
 import 'package:clientfoire/ui/BoutiquesPage.dart';
 import 'package:clientfoire/ui/GalleriePage.dart';
-import 'package:clientfoire/ui/NotifPage.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -421,9 +420,9 @@ class _HomePageState extends State<HomePage> {
                                       myUrlLauncher(_url);
                                     },
                                     child: CachedNetworkImage(
+                                      imageUrl: ads[itemIndex].adLink.toString(),
                                       placeholder: (context, url) => Image.asset(Logo_foire),
                                       fit: BoxFit.contain,
-                                      imageUrl: ads[itemIndex].adLink.toString(),
                                     ),
                                   ),
                               options: CarouselOptions(
@@ -563,7 +562,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-         Padding(
+         /*Padding(
           padding: EdgeInsets.all(10.0),
           child: GestureDetector(
             onTap: (){
@@ -572,11 +571,11 @@ class _HomePageState extends State<HomePage> {
                       builder: (_) => const NotifPage()
                   )
               );
-              /*Fluttertoast.showToast(
+              *//*Fluttertoast.showToast(
                   msg: "Bientôt disponible",
                   backgroundColor: kDeepOrange.withOpacity(0.5),
                   gravity: ToastGravity.CENTER
-              );*/
+              );*//*
             },
             child: ListTile(
               title: Text('Notifications',
@@ -588,7 +587,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(LineIcons.angleRight, color: kDeepOrange,),
             ),
           ),
-        ),
+        ),*/
         SizedBox(height: MediaQuery.of(context).size.height * 0.10,),
         Padding(
           padding: const EdgeInsets.all(8.0),
