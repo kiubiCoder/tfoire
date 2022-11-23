@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:clientfoire/Ui/AboutPage.dart';
 import 'package:clientfoire/Ui/AgendaPage.dart';
+import 'package:clientfoire/Ui/NotifPage.dart';
 import 'package:clientfoire/Ui/ExposantsPage.dart';
 import 'package:clientfoire/Ui/InfosPratiquesPage.dart';
 import 'package:clientfoire/Ui/NewsPage.dart';
@@ -34,7 +35,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   CarouselController carouselController = CarouselController();
-  int imIndex = 1;
+  int imIndex = 0;
   List<AdModel> ads = List.empty();
 
   @override
@@ -415,7 +416,7 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         elevation: 0.01,
                         child: Container(
-                          child: PhotoViewGallery.builder(
+                          /* child: PhotoViewGallery.builder(
                             backgroundDecoration: BoxDecoration(
                               color: Colors.white,
                             ),
@@ -434,57 +435,52 @@ class _HomePageState extends State<HomePage> {
                               );
                               return PhotoViewGalleryPageOptions(
                                 imageProvider: NetworkImage(ads[imIndex].adLink.toString()),
+                                // imageProvider: NetworkImage(ads[imIndex].adLink.toString()),
                                 minScale: PhotoViewComputedScale.contained,
                                 maxScale: PhotoViewComputedScale.contained * 4,
                               );
                             },
-                          ),
-                          // child: CarouselSlider.builder(
-                          //     itemCount: 0,
-                          //     itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex){
-                          //       return PhotoViewGallery.builder(
-                          //         backgroundDecoration: BoxDecoration(
-                          //           color: Colors.white,
-                          //         ),
-                          //         itemCount: ads.length,
-                          //         builder: (context, index) {
-                          //           return PhotoViewGalleryPageOptions(
-                          //
-                          //             imageProvider: NetworkImage(ads[index].adLink.toString()),
-                          //             minScale: PhotoViewComputedScale.contained,
-                          //             maxScale: PhotoViewComputedScale.contained * 4,
-                          //           );
-                          //         },
-                          //       );
-
-                                /*GestureDetector(
+                          ),*/
+                          child: CarouselSlider.builder(
+                              itemCount: 0,
+                              itemBuilder: (BuildContext context, imIndex, int pageViewIndex){
+                                Timer(
+                                  Duration(seconds: 5), () => setState(() {
+                                  if(imIndex < ads.length){
+                                    imIndex++;
+                                  }else{
+                                    imIndex = 0;
+                                  }
+                                }),
+                                );
+                                return GestureDetector(
                                   onTap: (){
-                                    Uri _url = Uri.parse(ads[itemIndex].adLink.toString());
+                                    Uri _url = Uri.parse(ads[imIndex].adLink.toString());
                                     myUrlLauncher(_url);
                                   },
                                   child: CachedNetworkImage(
-                                    imageUrl: ads[itemIndex].adLink.toString(),
+                                    imageUrl: ads[imIndex].adLink.toString(),
                                     placeholder: (context, url) => Image.asset(Logo_foire),
                                     fit: BoxFit.contain,
                                   ),
-                                );*/
-                              // },
-                              // options: CarouselOptions(
-                              //     pageSnapping: true,
-                              //     pauseAutoPlayOnTouch: true,
-                              //     height: MediaQuery.of(context).size.height * 0.30,
-                              //     aspectRatio: 16/9,
-                              //     viewportFraction: 1,
-                              //     initialPage: 0,
-                              //     enableInfiniteScroll: true,
-                              //     autoPlay: true,
-                              //     autoPlayInterval: const Duration(seconds: 5),
-                              //     autoPlayAnimationDuration: const Duration(milliseconds: 1000),
-                              //     autoPlayCurve: Curves.easeInOut,
-                              //     enlargeCenterPage: true,
-                              //     scrollDirection: Axis.horizontal,
-                              //     pauseAutoPlayOnManualNavigate: true
-                              // )
+                                );
+                              },
+                              options: CarouselOptions(
+                                  pageSnapping: true,
+                                  pauseAutoPlayOnTouch: true,
+                                  height: MediaQuery.of(context).size.height * 0.30,
+                                  aspectRatio: 16/9,
+                                  viewportFraction: 1,
+                                  initialPage: 0,
+                                  enableInfiniteScroll: true,
+                                  autoPlay: false,
+                                  autoPlayInterval: const Duration(seconds: 20),
+                                  autoPlayAnimationDuration: const Duration(milliseconds: 1000),
+                                  autoPlayCurve: Curves.easeInOut,
+                                  enlargeCenterPage: true,
+                                  scrollDirection: Axis.horizontal,
+                                  pauseAutoPlayOnManualNavigate: true
+                              )
 
                             /*itemCount: ads.length,
                               itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
@@ -515,7 +511,7 @@ class _HomePageState extends State<HomePage> {
                                   scrollDirection: Axis.horizontal,
                                   pauseAutoPlayOnManualNavigate: true
                               )*/
-                          // )
+                          ),
                         ),
                       ),
                     ),
@@ -636,7 +632,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-         /*Padding(
+         Padding(
           padding: EdgeInsets.all(10.0),
           child: GestureDetector(
             onTap: (){
@@ -645,11 +641,11 @@ class _HomePageState extends State<HomePage> {
                       builder: (_) => const NotifPage()
                   )
               );
-              *//*Fluttertoast.showToast(
+              /*Fluttertoast.showToast(
                   msg: "Bientôt disponible",
                   backgroundColor: kDeepOrange.withOpacity(0.5),
                   gravity: ToastGravity.CENTER
-              );*//*
+              );*/
             },
             child: ListTile(
               title: Text('Notifications',
@@ -661,7 +657,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(LineIcons.angleRight, color: kDeepOrange,),
             ),
           ),
-        ),*/
+        ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.10,),
         Padding(
           padding: const EdgeInsets.all(8.0),
