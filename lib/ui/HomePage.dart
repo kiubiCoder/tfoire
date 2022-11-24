@@ -8,6 +8,7 @@ import 'package:clientfoire/ui/17emefoire.dart';
 import 'package:clientfoire/ui/BoutiquesPage.dart';
 import 'package:clientfoire/ui/GalleriePage.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
+import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:clientfoire/Ui/AboutPage.dart';
@@ -18,8 +19,6 @@ import 'package:clientfoire/Ui/InfosPratiquesPage.dart';
 import 'package:clientfoire/Ui/NewsPage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:clientfoire/ApiServices/ApiServices.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import '../models/ExposantModel.dart';
 
 
@@ -36,14 +35,15 @@ class _HomePageState extends State<HomePage> {
 
   CarouselController carouselController = CarouselController();
   int imIndex = 0;
+  int itemIndex = 0;
   List<AdModel> ads = List.empty();
-
+  
   @override
   void initState() {
     //reccuperation des notifications
-    TfoireApiData().getNotificationsFromApi();
+    //TfoireApiData().getNotificationsFromApi();
     //reccuperation des pubs
-    TfoireApiData().getAllAdsFromApi();
+    TfoireApiData().getAllAdsFromApi().whenComplete(() => DBProvider.db.getAllAds().then((value) => ads = value));
     DBProvider.db.getAllExposant().then((e) => ex = e);
     // TODO: implement initState
     setState(() {
@@ -416,43 +416,34 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         elevation: 0.01,
                         child: Container(
-                          /* child: PhotoViewGallery.builder(
-                            backgroundDecoration: BoxDecoration(
-                              color: Colors.white,
+                          decoration: BoxDecoration(
+                            color: Colors.white30
+                          ),
+                          
+                          child: CarouselSlider(
+                            items: List.generate(ads.length, (index) => Image.network(ads[index].adLink.toString())),
+                            options: CarouselOptions(
+                              aspectRatio: 16/9,
+                              autoPlay: true,
+                              height: MediaQuery.of(context).size.height * 0.30,
+                              viewportFraction: 1,
                             ),
-                            itemCount: ads.length,
-                            builder: (context, index) {
-                              Timer(
-                                Duration(seconds: 8), () => setState(() {
-                                if(imIndex < ads.length){
-                                  imIndex++;
-                                }else{
-                                  setState(() {
-                                    imIndex = 1;
-                                  });
-                                }
-                                }),
-                              );
-                              return PhotoViewGalleryPageOptions(
-                                imageProvider: NetworkImage(ads[imIndex].adLink.toString()),
-                                // imageProvider: NetworkImage(ads[imIndex].adLink.toString()),
-                                minScale: PhotoViewComputedScale.contained,
-                                maxScale: PhotoViewComputedScale.contained * 4,
-                              );
-                            },
-                          ),*/
-                          child: CarouselSlider.builder(
+                          ),
+                          
+                          
+                          /*child: CarouselSlider.builder(
                               itemCount: 0,
                               itemBuilder: (BuildContext context, imIndex, int pageViewIndex){
-                                Timer(
+
+                                *//*Timer(
                                   Duration(seconds: 5), () => setState(() {
-                                  if(imIndex < ads.length){
-                                    imIndex++;
-                                  }else{
-                                    imIndex = 0;
-                                  }
-                                }),
-                                );
+                                    if(imIndex < ads.length){
+                                      imIndex++;
+                                    }else{
+                                      imIndex = 0;
+                                    }
+                                  }),
+                                );*//*
                                 return GestureDetector(
                                   onTap: (){
                                     Uri _url = Uri.parse(ads[imIndex].adLink.toString());
@@ -466,7 +457,6 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               options: CarouselOptions(
-                                  pageSnapping: true,
                                   pauseAutoPlayOnTouch: true,
                                   height: MediaQuery.of(context).size.height * 0.30,
                                   aspectRatio: 16/9,
@@ -474,15 +464,14 @@ class _HomePageState extends State<HomePage> {
                                   initialPage: 0,
                                   enableInfiniteScroll: true,
                                   autoPlay: false,
-                                  autoPlayInterval: const Duration(seconds: 20),
                                   autoPlayAnimationDuration: const Duration(milliseconds: 1000),
                                   autoPlayCurve: Curves.easeInOut,
                                   enlargeCenterPage: true,
                                   scrollDirection: Axis.horizontal,
-                                  pauseAutoPlayOnManualNavigate: true
+                                  pauseAutoPlayOnManualNavigate: false
                               )
 
-                            /*itemCount: ads.length,
+                            *//*itemCount: ads.length,
                               itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
                                   GestureDetector(
                                     onTap: (){
@@ -510,8 +499,8 @@ class _HomePageState extends State<HomePage> {
                                   enlargeCenterPage: true,
                                   scrollDirection: Axis.horizontal,
                                   pauseAutoPlayOnManualNavigate: true
-                              )*/
-                          ),
+                              )*//*
+                          ),*/
                         ),
                       ),
                     ),
