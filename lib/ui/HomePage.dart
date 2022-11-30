@@ -1,5 +1,5 @@
-import 'dart:async';
 
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clientfoire/database/DBProvider.dart';
@@ -8,7 +8,6 @@ import 'package:clientfoire/ui/17emefoire.dart';
 import 'package:clientfoire/ui/BoutiquesPage.dart';
 import 'package:clientfoire/ui/GalleriePage.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
-import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:clientfoire/Ui/AboutPage.dart';
@@ -35,11 +34,12 @@ class _HomePageState extends State<HomePage> {
 
   CarouselController carouselController = CarouselController();
   int imIndex = 0;
-  int itemIndex = 0;
+  int adsLen = 1;
   List<AdModel> ads = List.empty();
   
   @override
   void initState() {
+
     //reccuperation des notifications
     //TfoireApiData().getNotificationsFromApi();
     //reccuperation des pubs
@@ -47,7 +47,10 @@ class _HomePageState extends State<HomePage> {
     DBProvider.db.getAllExposant().then((e) => ex = e);
     // TODO: implement initState
     setState(() {
-      DBProvider.db.getAllAds().then((value) => ads = value);
+      DBProvider.db.getAllAds().then((value){
+        ads = value;
+        adsLen = ads.length - 1 ;
+      });
     });
     super.initState();
   }
@@ -55,6 +58,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    Timer(
+      Duration(seconds: 5), () => setState(() {
+        if(imIndex < adsLen){
+          imIndex++;
+        }else{
+          imIndex = 0;
+        }
+      }),
+    );
+
     return Scaffold(
       drawer: _tDrawer(),
       appBar: AppBar(
@@ -340,17 +354,6 @@ class _HomePageState extends State<HomePage> {
                                   "FOIRE"
                           );
                           myUrlLauncher(_url);
-
-                         /* Fluttertoast.showToast(
-                              msg: "Disponible à partir du 30 Novembre !",
-                              backgroundColor: kDeepOrange.withOpacity(0.5),
-                              gravity: ToastGravity.CENTER
-                          );*/
-                          /*Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (_) => const BuyTicket()
-                              )
-                          );*/
                         },
                         child: Card(
                           child: SizedBox(
@@ -374,16 +377,6 @@ class _HomePageState extends State<HomePage> {
                                   "FOIRE"
                           );
                           myUrlLauncher(_url);
-                          /*Fluttertoast.showToast(
-                              msg: "Disponible à partir du 30 Novembre !",
-                              backgroundColor: kDeepOrange.withOpacity(0.5),
-                              gravity: ToastGravity.CENTER
-                          );*/
-                          /*Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (_) => const BuyTicket()
-                              )
-                          );*/
                         },
                         child: Card(
                           elevation: 0.01,
@@ -420,7 +413,11 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white30
                           ),
                           
-                          child: CarouselSlider(
+                          child: _MyCarousel()
+
+
+
+                          /*CarouselSlider(
                             items: List.generate(ads.length, (index) => Image.network(ads[index].adLink.toString())),
                             options: CarouselOptions(
                               aspectRatio: 16/9,
@@ -428,7 +425,7 @@ class _HomePageState extends State<HomePage> {
                               height: MediaQuery.of(context).size.height * 0.30,
                               viewportFraction: 1,
                             ),
-                          ),
+                          ),*/
                           
                           
                           /*child: CarouselSlider.builder(
@@ -524,12 +521,6 @@ class _HomePageState extends State<HomePage> {
                         "FOIRE"
                 );
                 myUrlLauncher(_url);
-                /*Fluttertoast.showToast(
-                    msg: "Aucun PASS disponible car vous n'avez pas encore acheté de Ticket",
-                    backgroundColor: kDeepOrange.withOpacity(0.5),
-                    gravity: ToastGravity.CENTER,
-                );*/
-                // Navigator.push(context, MaterialPageRoute(builder: (_)=> ShowTicket()));
               },
               child: Card(
                 color: Colors.deepOrange.shade50,
@@ -599,11 +590,6 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(10.0),
           child: GestureDetector(
             onTap: (){
-              /*Fluttertoast.showToast(
-                  msg: "Bientot disponible",
-                  backgroundColor: kDeepOrange.withOpacity(0.5),
-                  gravity: ToastGravity.CENTER
-              );*/
               Navigator.push(context,
                   MaterialPageRoute(
                       builder: (_) => const BoutiquesPage()
@@ -630,11 +616,6 @@ class _HomePageState extends State<HomePage> {
                       builder: (_) => const NotifPage()
                   )
               );
-              /*Fluttertoast.showToast(
-                  msg: "Bientôt disponible",
-                  backgroundColor: kDeepOrange.withOpacity(0.5),
-                  gravity: ToastGravity.CENTER
-              );*/
             },
             child: ListTile(
               title: Text('Notifications',
@@ -667,4 +648,58 @@ class _HomePageState extends State<HomePage> {
       ],
     ),
   );
+
+  _MyCarousel() {
+    return FutureBuilder(
+        future: DBProvider.db.getAllAds(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+                child: SnackBar(
+                  content: Text("Espace publicitaire"),
+                  backgroundColor: kYellow,
+                )
+            );
+          } else if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }else{
+            return GridView.builder(
+                scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    mainAxisSpacing: 0.0,
+                    childAspectRatio: 1.0,
+                    crossAxisSpacing: 0.0,
+                    mainAxisExtent: MediaQuery.of(context).size.width * 0.94
+                ),
+                itemCount: ads.length,
+
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.white30,
+                              blurRadius: 1,
+                              spreadRadius: 5
+                          )
+                        ]
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: '${ads[imIndex].adLink}',
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) => Image.asset(Logo_foire),
+                      errorWidget: (context, url, error) =>
+                          Icon(Icons.error),
+                    ),
+                  );
+                }
+            );
+
+            }
+          }
+    );
+  }
 }

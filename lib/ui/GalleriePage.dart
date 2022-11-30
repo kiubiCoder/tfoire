@@ -1,11 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clientfoire/models/GallerieModel.dart';
-import 'package:clientfoire/ui/DetailsGallery.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
