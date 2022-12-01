@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:clientfoire/Ui/AboutPage.dart';
 import 'package:clientfoire/Ui/AgendaPage.dart';
-import 'package:clientfoire/Ui/NotifPage.dart';
 import 'package:clientfoire/Ui/ExposantsPage.dart';
 import 'package:clientfoire/Ui/InfosPratiquesPage.dart';
 import 'package:clientfoire/Ui/NewsPage.dart';
@@ -33,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   PageController _pageController = PageController();
   //active page
-  int activePage = 1;
+  int activePage = 0;
 
   late int adsLen;
   List<AdModel> ads = List.empty();
@@ -59,7 +58,7 @@ class _HomePageState extends State<HomePage> {
         });
       } else {
         setState(() {
-          activePage = 0;
+          activePage = -1;
         });
       }
     });
@@ -520,7 +519,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-         Padding(
+         /*Padding(
           padding: EdgeInsets.all(10.0),
           child: GestureDetector(
             onTap: (){
@@ -540,7 +539,7 @@ class _HomePageState extends State<HomePage> {
               trailing: Icon(LineIcons.angleRight, color: kDeepOrange,),
             ),
           ),
-        ),
+        ),*/
         SizedBox(height: MediaQuery.of(context).size.height * 0.10,),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -565,7 +564,7 @@ class _HomePageState extends State<HomePage> {
   _MyCarousel() {
     return PageView.builder(
       itemCount: ads.length,
-      pageSnapping: true,
+      //pageSnapping: true,
       controller: _pageController,
       onPageChanged: (page){
         setState(() {
@@ -573,7 +572,6 @@ class _HomePageState extends State<HomePage> {
         });
       },
       itemBuilder: (context,pagePosition){
-        //MainAxisAlignment.spaceAround;
         //reccuperation de la position active
         return CachedNetworkImage(
           imageUrl: '${ads[pagePosition].adLink.toString()}',
@@ -587,8 +585,8 @@ class _HomePageState extends State<HomePage> {
     return List<Widget>.generate(imagesLength, (index) {
       return Container(
         margin: EdgeInsets.all(3),
-        width: 10,
-        height: 10.0,
+        width: 15,
+        height: 20.0,
         decoration: BoxDecoration(
             color: currentIndex == index ? kDeepOrange : kTmoneyback,
             shape: BoxShape.circle),
