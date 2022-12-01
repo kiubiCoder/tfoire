@@ -1,7 +1,6 @@
 
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clientfoire/database/DBProvider.dart';
 import 'package:clientfoire/models/AdModel.dart';
 import 'package:clientfoire/ui/17emefoire.dart';
@@ -32,42 +31,49 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  CarouselController carouselController = CarouselController();
-  int imIndex = 0;
-  int adsLen = 1;
+  PageController _pageController = PageController();
+  //active page
+  int activePage = 1;
+
+  late int adsLen;
   List<AdModel> ads = List.empty();
   
   @override
   void initState() {
-
-    //reccuperation des notifications
-    //TfoireApiData().getNotificationsFromApi();
-    //reccuperation des pubs
-    TfoireApiData().getAllAdsFromApi().whenComplete(() => DBProvider.db.getAllAds().then((value) => ads = value));
-    DBProvider.db.getAllExposant().then((e) => ex = e);
-    // TODO: implement initState
-    setState(() {
-      DBProvider.db.getAllAds().then((value){
-        ads = value;
-        adsLen = ads.length - 1 ;
-      });
-    });
     super.initState();
+    // TODO: implement initState
+    TfoireApiData().getAllAdsFromApi().whenComplete(() => DBProvider.db.getAllAds().then((value){
+      ads = value;
+      adsLen = ads.length - 1;
+    }));
+    DBProvider.db.getAllExposant().then((e) => ex = e);
+    Timer.periodic(Duration(seconds: 5), (Timer timer) {
+      if (activePage < adsLen.toInt()) {
+        setState(() {
+          activePage++;
+          _pageController.animateToPage(
+            activePage,
+            duration: Duration(milliseconds: 350),
+            curve: Curves.easeIn,
+          );
+        });
+      } else {
+        setState(() {
+          activePage = 0;
+        });
+      }
+    });
+
   }
 
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    Timer(
-      Duration(seconds: 5), () => setState(() {
-        if(imIndex < adsLen){
-          imIndex++;
-        }else{
-          imIndex = 0;
-        }
-      }),
-    );
 
     return Scaffold(
       drawer: _tDrawer(),
@@ -97,13 +103,6 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
-
-        /*decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/bg.jpg"),
-            fit: BoxFit.cover
-          ),
-        ),*/
         child: Column(
          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -403,104 +402,18 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(9.0),
-                child: Row(
+                child: Column(
                   children: [
                     Expanded(
                       child: Card(
-                        elevation: 0.01,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white30
-                          ),
-                          
-                          child: _MyCarousel()
-
-
-
-                          /*CarouselSlider(
-                            items: List.generate(ads.length, (index) => Image.network(ads[index].adLink.toString())),
-                            options: CarouselOptions(
-                              aspectRatio: 16/9,
-                              autoPlay: true,
-                              height: MediaQuery.of(context).size.height * 0.30,
-                              viewportFraction: 1,
-                            ),
-                          ),*/
-                          
-                          
-                          /*child: CarouselSlider.builder(
-                              itemCount: 0,
-                              itemBuilder: (BuildContext context, imIndex, int pageViewIndex){
-
-                                *//*Timer(
-                                  Duration(seconds: 5), () => setState(() {
-                                    if(imIndex < ads.length){
-                                      imIndex++;
-                                    }else{
-                                      imIndex = 0;
-                                    }
-                                  }),
-                                );*//*
-                                return GestureDetector(
-                                  onTap: (){
-                                    Uri _url = Uri.parse(ads[imIndex].adLink.toString());
-                                    myUrlLauncher(_url);
-                                  },
-                                  child: CachedNetworkImage(
-                                    imageUrl: ads[imIndex].adLink.toString(),
-                                    placeholder: (context, url) => Image.asset(Logo_foire),
-                                    fit: BoxFit.contain,
-                                  ),
-                                );
-                              },
-                              options: CarouselOptions(
-                                  pauseAutoPlayOnTouch: true,
-                                  height: MediaQuery.of(context).size.height * 0.30,
-                                  aspectRatio: 16/9,
-                                  viewportFraction: 1,
-                                  initialPage: 0,
-                                  enableInfiniteScroll: true,
-                                  autoPlay: false,
-                                  autoPlayAnimationDuration: const Duration(milliseconds: 1000),
-                                  autoPlayCurve: Curves.easeInOut,
-                                  enlargeCenterPage: true,
-                                  scrollDirection: Axis.horizontal,
-                                  pauseAutoPlayOnManualNavigate: false
-                              )
-
-                            *//*itemCount: ads.length,
-                              itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-                                  GestureDetector(
-                                    onTap: (){
-                                      Uri _url = Uri.parse(ads[itemIndex].adLink.toString());
-                                      myUrlLauncher(_url);
-                                    },
-                                    child: CachedNetworkImage(
-                                      imageUrl: ads[itemIndex].adLink.toString(),
-                                      placeholder: (context, url) => Image.asset(Logo_foire),
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                              options: CarouselOptions(
-                                  pageSnapping: true,
-                                  pauseAutoPlayOnTouch: true,
-                                  height: MediaQuery.of(context).size.height * 0.30,
-                                  aspectRatio: 16/9,
-                                  viewportFraction: 1,
-                                  initialPage: 0,
-                                  enableInfiniteScroll: true,
-                                  autoPlay: true,
-                                  autoPlayInterval: const Duration(seconds: 5),
-                                  autoPlayAnimationDuration: const Duration(milliseconds: 1000),
-                                  autoPlayCurve: Curves.easeInOut,
-                                  enlargeCenterPage: true,
-                                  scrollDirection: Axis.horizontal,
-                                  pauseAutoPlayOnManualNavigate: true
-                              )*//*
-                          ),*/
-                        ),
+                        elevation: 0.00,
+                        child: _MyCarousel(),
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: indicators(ads.length, activePage),
+                    )
                   ],
                 ),
               ),
@@ -650,56 +563,37 @@ class _HomePageState extends State<HomePage> {
   );
 
   _MyCarousel() {
-    return FutureBuilder(
-        future: DBProvider.db.getAllAds(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-                child: SnackBar(
-                  content: Text("Espace publicitaire"),
-                  backgroundColor: kYellow,
-                )
-            );
-          } else if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }else{
-            return GridView.builder(
-                scrollDirection: Axis.horizontal,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    mainAxisSpacing: 0.0,
-                    childAspectRatio: 1.0,
-                    crossAxisSpacing: 0.0,
-                    mainAxisExtent: MediaQuery.of(context).size.width * 0.94
-                ),
-                itemCount: ads.length,
-
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.white30,
-                              blurRadius: 1,
-                              spreadRadius: 5
-                          )
-                        ]
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: '${ads[imIndex].adLink}',
-                      fit: BoxFit.contain,
-                      placeholder: (context, url) => Image.asset(Logo_foire),
-                      errorWidget: (context, url, error) =>
-                          Icon(Icons.error),
-                    ),
-                  );
-                }
-            );
-
-            }
-          }
+    return PageView.builder(
+      itemCount: ads.length,
+      pageSnapping: true,
+      controller: _pageController,
+      onPageChanged: (page){
+        setState(() {
+          activePage = page;
+        });
+      },
+      itemBuilder: (context,pagePosition){
+        //MainAxisAlignment.spaceAround;
+        //reccuperation de la position active
+        return CachedNetworkImage(
+          imageUrl: '${ads[pagePosition].adLink.toString()}',
+          fit: BoxFit.cover,
+        );
+      }
     );
   }
+
+  List<Widget> indicators(imagesLength,currentIndex) {
+    return List<Widget>.generate(imagesLength, (index) {
+      return Container(
+        margin: EdgeInsets.all(3),
+        width: 10,
+        height: 10.0,
+        decoration: BoxDecoration(
+            color: currentIndex == index ? kDeepOrange : kTmoneyback,
+            shape: BoxShape.circle),
+      );
+    });
+  }
+
 }
