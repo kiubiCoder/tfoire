@@ -574,7 +574,10 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (context,pagePosition){
         //reccuperation de la position active
         return CachedNetworkImage(
-          imageUrl: '${ads[pagePosition].adLink.toString()}',
+          placeholder: (context, url) => Image.asset("assets/images/ic_foire.png"),
+          imageUrl: ads[pagePosition].adLink.toString() != "" ? ads[pagePosition].adLink.toString() : 'assets/image/ic_foire.png',
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           fit: BoxFit.cover,
         );
       }
