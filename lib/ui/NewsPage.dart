@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:readmore/readmore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'DetailNews.dart';
 

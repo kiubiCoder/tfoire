@@ -8,7 +8,6 @@ import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
@@ -99,8 +98,8 @@ class _ExposantsPageState extends State<ExposantsPage> {
                         critere2 = removeDiacritics(val.toLowerCase());
                         setState(() {
                           searchResult = exposants.where((a) {
-                            var nom = a.nom?.toLowerCase();
-                            var pavillon = a.pavillon?.toLowerCase();
+                            var nom = a.nom?.toLowerCase() == null ? ' ' : a.nom?.toLowerCase();
+                            var pavillon = a.pavillon?.toLowerCase() == null ? ' ' : a.pavillon?.toLowerCase();
                             return removeDiacritics(nom!).contains(critere1) && removeDiacritics(pavillon!).contains(critere2);
                           }).toList();
                         });
@@ -110,8 +109,8 @@ class _ExposantsPageState extends State<ExposantsPage> {
                       controller: controller1,
                       maxLength: 50,
                       decoration: InputDecoration(
-                          labelText: "Entrez les mots clés",
-                          suffixIcon: Icon(LineIcons.search),
+                        labelText: "Entrez un mot clé",
+                        suffixIcon: Icon(LineIcons.search),
                       ),
                       //============== Action lors de la saisie
                       onChanged: (text){
@@ -119,8 +118,10 @@ class _ExposantsPageState extends State<ExposantsPage> {
                         setState(() {
                           //_changeIcon(critere1);
                           searchResult = exposants.where((a) {
-                            var libelle = a.nom?.toLowerCase();
-                            return removeDiacritics(libelle!).contains(critere1);
+                            var nom = a.nom?.toLowerCase() == null ? ' ': a.nom?.toLowerCase();
+                            var cate = a.categorie?.toLowerCase() == null ? ' ' : a.categorie?.toLowerCase();
+                            var pav = a.pavillon?.toLowerCase() == null ? ' ' : a.pavillon?.toLowerCase();
+                            return removeDiacritics(nom!).contains(critere1) || removeDiacritics(cate!).contains(critere1) || removeDiacritics(pav!).contains(critere1);
                           }).toList();
                         });
                       },

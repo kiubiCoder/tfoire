@@ -573,12 +573,20 @@ class _HomePageState extends State<HomePage> {
       },
       itemBuilder: (context,pagePosition){
         //reccuperation de la position active
-        return CachedNetworkImage(
-          placeholder: (context, url) => Image.asset("assets/images/ic_foire.png"),
-          imageUrl: ads[pagePosition].adLink.toString() != "" ? ads[pagePosition].adLink.toString() : 'assets/image/ic_foire.png',
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          fit: BoxFit.cover,
+        return GestureDetector(
+          onTap: (){
+            Uri _url = Uri.parse(
+                ads[pagePosition].title.toString()
+            );
+            myUrlLauncher(_url);
+          },
+          child: CachedNetworkImage(
+            placeholder: (context, url) => Image.asset("assets/images/ic_foire.png"),
+            imageUrl: ads[pagePosition].adLink.toString() != "" ? ads[pagePosition].adLink.toString() : 'assets/image/ic_foire.png',
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            fit: BoxFit.cover,
+          ),
         );
       }
     );

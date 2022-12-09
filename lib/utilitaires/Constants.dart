@@ -39,7 +39,7 @@ String Logo_foire = 'assets/images/ic_foire.png';
 //odda
 //final String API_BASE_URL = 'http://192.168.1.127:5500/Api/v1/togo2000/';
 //dsi
-//final String API_BASE_URL = 'http://10.10.21.75:5500/Api/v1/togo2000/';
+//final String API_BASE_URL = 'http://10.10.21.110:5500/Api/v1/togo2000/';
 //maison
 //final String API_BASE_URL = 'http://192.168.104.30:5500/Api/v1/togo2000/';
 //distant
@@ -247,6 +247,12 @@ final List<Map<String, dynamic>> pavillonItems = [
   {
     'value': 'kara',
     'label': 'Gallerie KARA',
+    'icon': Icon(Icons.check,color: Colors.deepOrange,),
+    'textStyle': TextStyle(color: kDeepOrange),
+  },
+  {
+    'value': 'cetef',
+    'label': 'CETEF',
     'icon': Icon(Icons.check,color: Colors.deepOrange,),
     'textStyle': TextStyle(color: kDeepOrange),
   },

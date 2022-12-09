@@ -4,6 +4,7 @@ import 'package:clientfoire/models/AdModel.dart';
 import 'package:clientfoire/models/ExposantModel.dart';
 import 'package:clientfoire/models/GallerieModel.dart';
 import 'package:clientfoire/models/NewModel.dart';
+import 'package:date_format/date_format.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -269,7 +270,7 @@ class DBProvider {
     return res;
   }
 
-  //Liste de tous les actes
+  //Liste de toutes les photos
   Future<List<GalleryModel>> getAllPhotos() async {
     final db = await database;
     final res = await db?.rawQuery("SELECT * FROM Gallery ORDER BY id DESC");
@@ -278,6 +279,20 @@ class DBProvider {
 
     return list;
   }
+
+  //Liste des exposants presents dans la gallerie
+  Future<List<GalleryModel>> getGallerieExposants() async {
+    final db = await database;
+    final res = await db?.rawQuery("SELECT DISTINCT exposant FROM Gallery ORDER BY id DESC");
+
+    List<GalleryModel> list = res!.isNotEmpty ? res.map((c) => GalleryModel.fromJson(c)).toList() : [];
+
+    return list;
+  }
+
+
+
+
 
   //nombre d'exposant
   Future<int?> countGallery() async {
@@ -349,6 +364,14 @@ class DBProvider {
   Future<List<ArticleModel>> getAllArticles() async {
     final db = await database;
     final res = await db?.rawQuery("SELECT * FROM Article ORDER BY id DESC");
+    List<ArticleModel> list = res!.isNotEmpty ? res.map((c) => ArticleModel.fromJson(c)).toList() : [];
+    return list;
+  }
+
+  //Liste des exposants ayants publie un article
+  Future<List<ArticleModel>> getArticlesExposants() async {
+    final db = await database;
+    final res = await db?.rawQuery("SELECT DISTINCT exposant FROM Article ORDER BY id DESC");
     List<ArticleModel> list = res!.isNotEmpty ? res.map((c) => ArticleModel.fromJson(c)).toList() : [];
     return list;
   }

@@ -26,7 +26,7 @@ class _AgendaPageState extends State<AgendaPage> {
   //date actuelle
   DateTime selectedDate = DateTime.now();
   //definition de l'intervale de temps
-  final firstDate = DateTime(2022,10,20);
+  final firstDate = DateTime.now();
   final lastDate = DateTime(2022,12,31);
 
 
@@ -110,7 +110,8 @@ class _AgendaPageState extends State<AgendaPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Icon(LineIcons.calendar),
-                              Text(formatDate(selectedDate, [yyyy, '-' , mm , '-' , dd])),
+                              // Text(formatDate(selectedDate, [yyyy, '-' , mm , '-' , dd])),
+                              Text("Selectionnez une date !")
                             ],
                           )
                       ),
@@ -268,6 +269,7 @@ class _AgendaPageState extends State<AgendaPage> {
   _chargeEvents(){
     setState(() {
       DBProvider.db.getAllEvents().then((value) {
+        final toDay = DateTime.now();
         events = value;
         searchResult = events;
         if(value.isEmpty){

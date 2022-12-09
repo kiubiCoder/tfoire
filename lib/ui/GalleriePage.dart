@@ -39,7 +39,7 @@ class _GalleriePageState extends State<GalleriePage> {
     // TODO: implement initState
     main();
     setState(() {
-      DBProvider.db.getAllExposant().then((e) => ex = e);
+      DBProvider.db.getGallerieExposants().then((e) => galExpo = e);
       _chargeGallerie();
     });
     super.initState();
@@ -92,10 +92,10 @@ class _GalleriePageState extends State<GalleriePage> {
                       DropdownButton(
                         isExpanded: true,
                         hint:  Text(_selected.toString()),
-                        items: ex.map((e){
+                        items: galExpo.map((e){
                           return new DropdownMenuItem(
-                            child: new Text(e.nom.toString(),),
-                            value: e.nom.toString(),
+                            child: new Text(e.exposant.toString(),),
+                            value: e.exposant.toString(),
                           );
                         }).toList(),
                         onChanged: (val){
@@ -216,19 +216,6 @@ class _GalleriePageState extends State<GalleriePage> {
                                 )
                             );
                           },
-
-                          /*() {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: ((context) =>
-                                    GalleryDetails(
-                                        photo: photo, id: id
-                                    )
-                                ),
-                              ),
-                            );
-                          },*/
                           child: Container(
                             decoration: BoxDecoration(
                                 boxShadow: [
@@ -317,16 +304,6 @@ class _GalleriePageState extends State<GalleriePage> {
       });
     });
   }
-
- /* void openGallery() => Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => GalleryWidget(
-          photos: photos,
-          index: tofIndex,
-        ),
-      )
-  );*/
-
 }
 
 class GalleryWidget extends StatefulWidget {

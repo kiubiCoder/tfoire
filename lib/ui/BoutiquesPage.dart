@@ -41,7 +41,7 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
     // TODO: implement initState
     main();
     setState(() {
-       DBProvider.db.getAllExposant().then((e) => ex = e);
+       DBProvider.db.getArticlesExposants().then((e) => artclExpo = e);
       _chargeArticles();
     });
 
@@ -88,10 +88,10 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                     DropdownButton(
                         isExpanded: true,
                         hint: Text(_selected.toString()),
-                        items: ex.map((e){
+                        items: artclExpo.map((e){
                           return new DropdownMenuItem(
-                            child: new Text(e.nom.toString(),),
-                            value: e.nom.toString(),
+                            child: new Text(e.exposant.toString(),),
+                            value: e.exposant.toString(),
                           );
                         }).toList(),
                         onChanged: (val){
@@ -212,31 +212,22 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ListTile(
-                                  onTap: (){
-                                    DBProvider.db.getTelExposantByName(searchResult[index].exposant.toString()).then((value){
-                                      setState(() {
-                                        tel = value.first.tel;
-                                        print('===================== $tel ============= ');
-                                      });
-                                    });
-                                    //inbox de l'exposant
-                                    Uri _url = Uri.parse(
-                                        "whatsapp://send?phone=" + tel + "&text="
-                                            "Bonjour !\n"
-                                            "Cet article m'interesse. Est-il toujours disponible en stock ?\n"
-                                            "==============================\n"
-                                            "\n*Article: ${searchResult[index].libelle}* / *${searchResult[index].id}*"
-                                            "\n*Exposant: ${searchResult[index].exposant}*"
-                                            "\n*Prix: ${searchResult[index].prixBase}*"
-                                    );
-                                    myUrlLauncher(_url);
-                                  },
-                                  leading: Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    child: CachedNetworkImage(
-                                      imageUrl: '${searchResult[index].articleImage}',
-                                      fit: BoxFit.contain,
-                                      placeholder: (context, url) => Image.asset(Logo_foire),
+                                  leading: GestureDetector(
+                                    onTap: (){
+                                       showDialog(
+                                          context: context,
+                                          builder: (BuildContext context){
+                                            return _showItemPic(index);
+                                          }
+                                      );
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      child: CachedNetworkImage(
+                                        imageUrl: '${searchResult[index].articleImage}',
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) => Image.asset(Logo_foire),
+                                      ),
                                     ),
                                   ),
                                   title: Text(searchResult[index].libelle.toString() != "" ? searchResult[index].libelle.toString() : "",
@@ -245,11 +236,76 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                                         fontWeight: FontWeight.w400
                                     ),
                                   ),
-                                  subtitle: Text(searchResult[index].exposant.toString() != "" ? searchResult[index].exposant.toString() : "",
+                                  subtitle: Container(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(searchResult[index].exposant.toString() != "" ? searchResult[index].exposant.toString() : "",
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: (){
+                                                  DBProvider.db.getTelExposantByName(searchResult[index].exposant.toString()).then((value){
+                                                    setState(() {
+                                                      tel = value[0].tel.toString();
+                                                      print('===================== $tel ============= ');
+                                                    });
+                                                  });
+                                                  //appel direct
+                                                  makeCall(tel.toString());
+                                                },
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.black12,
+                                                  child: Icon(LineIcons.phone, color: kDeepOrange),
+                                                ),
+                                              ),
+                                              SizedBox(width: 15.0,),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  DBProvider.db.getTelExposantByName(searchResult[index].exposant.toString()).then((value){
+                                                    setState(() {
+                                                      tel = value[0].tel.toString();
+                                                      print('===================== $tel ============= ');
+                                                    });
+                                                  });
+                                                  //inbox de l'exposant
+                                                  Uri _url = Uri.parse(
+                                                      "whatsapp://send?phone=" + tel + "&text="
+                                                          "Bonjour !\n"
+                                                          "Cet article m'interesse. Est-il toujours disponible en stock ?\n"
+                                                          "==============================\n"
+                                                          "\n*Article: ${searchResult[index].libelle}* / *${searchResult[index].id}*"
+                                                          "\n*Exposant: ${searchResult[index].exposant}*"
+                                                          "\n*Prix: ${searchResult[index].prixBase}*"
+                                                  );
+                                                  myUrlLauncher(_url);
+                                                },
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.black12,
+                                                  child: Icon(LineIcons.whatSApp, color: Colors.green,),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+
+                                  /*Text(searchResult[index].exposant.toString() != "" ? searchResult[index].exposant.toString() : "",
                                     style: TextStyle(
                                         fontSize: 15.0,
                                     ),
-                                  ),
+                                  ),*/
                                   trailing: Column(
                                     children: [
                                       Text(searchResult[index].prixBarre == "0"
@@ -289,6 +345,46 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
             }
           }
         }
+    );
+  }
+
+  _showItemPic(int index){
+    return AlertDialog(
+      title: Text(searchResult[index].libelle.toString(),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: kDarkMaroon,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: Container(
+        child: Column(
+          children: [
+            Divider(height: 2, color: kClearMaroon,),
+            Container(
+              height: 50.0,
+            ),
+            Expanded(
+              child: Container(
+                child: CachedNetworkImage(
+                  imageUrl: '${searchResult[index].articleImage}',
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Image.asset(Logo_foire),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 15.0),
+          child: ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Icon(LineIcons.times, size: 80,)
+          ),
+        ),
+      ],
     );
   }
 

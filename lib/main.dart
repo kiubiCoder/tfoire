@@ -16,18 +16,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cron/cron.dart';
+import 'models/ArticleModel.dart';
 import 'models/ExposantModel.dart';
+import 'models/GallerieModel.dart';
 
 bool? appStatus ;
 bool? tutoStatus ;
 List<ExposantModel> ex = List.empty();
+List<GalleryModel> galExpo = List.empty();
+List<ArticleModel> artclExpo = List.empty();
+
 var connexionState =  (Connectivity().checkConnectivity());
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
   //decclaration de preference partagées
-  DBProvider.db.getAllExposant().then((e) => ex = e);
+  //DBProvider.db.getAllExposant().then((e) => ex = e);
+  DBProvider.db.getGallerieExposants().then((e) => galExpo = e);
+  DBProvider.db.getArticlesExposants().then((e) => artclExpo = e);
   final prefs = await SharedPreferences.getInstance();
 
   appStatus = prefs.getBool(PREFKEY);
