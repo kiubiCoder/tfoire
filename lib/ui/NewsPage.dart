@@ -244,6 +244,12 @@ class _NewsPageState extends State<NewsPage> {
             gravity: ToastGravity.CENTER
         ));
       });
+    }else{
+      Fluttertoast.showToast(
+          msg: "Une connexion est nécessaire pour effectuer cette action...!",
+          backgroundColor: kDeepOrange.withOpacity(0.5),
+          gravity: ToastGravity.CENTER
+      );
     }
   }
 

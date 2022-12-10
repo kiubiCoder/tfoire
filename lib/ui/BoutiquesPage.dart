@@ -28,8 +28,8 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
   String _selected = "Choisir un exposant";
   var tel;
   //controllers de saaisie
-  final TextEditingController controller1 = TextEditingController();
-  final TextEditingController controller2 = TextEditingController();
+  final TextEditingController _controller1 = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
 
   //List<ExposantModel> ex = List.empty();
   //liste de base
@@ -85,33 +85,56 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                 ),
                 child: Column(
                   children: [
-                    DropdownButton(
-                        isExpanded: true,
-                        hint: Text(_selected.toString()),
-                        items: artclExpo.map((e){
-                          return new DropdownMenuItem(
-                            child: new Text(e.exposant.toString(),),
-                            value: e.exposant.toString(),
-                          );
-                        }).toList(),
-                        onChanged: (val){
-                          critere2 = removeDiacritics(val.toString().toLowerCase());
-                          setState(() {
-                            _selected = val.toString();
-                            searchResult = articles.where((a) {
-                              var nom = a.exposant?.toLowerCase();
-                              var libelle = a.libelle?.toLowerCase();
-                              return removeDiacritics(nom!).contains(critere2) && removeDiacritics(libelle!).contains(critere1);
-                            }).toList();
-                          });
-                        },
+                    Row(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _selected = "Choisir un exposant";
+                                _articlesRefresh();
+                              });
+                            },
+                            icon: Icon(LineIcons.timesCircle)
+                        ),
+                        Expanded(
+                          child: DropdownButton(
+                            isExpanded: true,
+                            hint:  Text(_selected.toString()),
+                            items: artclExpo.map((e){
+                              return new DropdownMenuItem(
+                                child: new Text(e.exposant.toString(),),
+                                value: e.exposant.toString(),
+                              );
+                            }).toList(),
+                            onChanged: (val){
+                              critere1 = removeDiacritics(val.toString().toLowerCase());
+                              setState(() {
+                                _selected = val.toString();
+                                searchResult = articles.where((a) {
+                                  var nom = a.exposant?.toLowerCase();
+                                  return removeDiacritics(nom!).contains(critere1);
+                                }).toList();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     TextField(
-                      controller: controller1,
+                      controller: _controller1,
                       maxLength: 50,
                       decoration: InputDecoration(
                         labelText: "Entrez les mots clés d\'un article",
                         suffixIcon: Icon(LineIcons.search),
+                        prefixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _selected = "Choisir un exposant";
+                                _articlesRefresh();
+                              });
+                            },
+                            icon: Icon(LineIcons.timesCircle)
+                        ),
                       ),
                       //============== Action lors de la saisie
                       onChanged: (text){
@@ -169,8 +192,8 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                             onPressed: (){
                               _chargeArticles();
                               setState(() {
-                                controller1.clear();
-                                controller2.clear();
+                                _controller1.clear();
+                                _controller2.clear();
                               });
                             },
                             child: Text("Tout afficher",
@@ -223,6 +246,7 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width * 0.2,
+                                      height: MediaQuery.of(context).size.width * 1,
                                       child: CachedNetworkImage(
                                         imageUrl: '${searchResult[index].articleImage}',
                                         fit: BoxFit.cover,
@@ -378,10 +402,11 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 15.0),
-          child: ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: Icon(LineIcons.times, size: 80,)
+          padding: const EdgeInsets.all(10.0),
+          child: Center(
+            child: IconButton(
+              onPressed: () => Navigator.pop(context), icon: Icon(LineIcons.timesCircle, size: 50,),
+            ),
           ),
         ),
       ],
@@ -421,6 +446,8 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
           );
           Future.delayed(Duration(seconds: 5), (){
             setState(() {
+              _controller1.clear();
+              _selected = "Choisir un exposant";
               _chargeArticles();
             });
           });
@@ -431,6 +458,12 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
             gravity: ToastGravity.CENTER
         ));
       });
+    }else{
+      Fluttertoast.showToast(
+          msg: "Une connexion est nécessaire pour effectuer cette action...!",
+          backgroundColor: kDeepOrange.withOpacity(0.5),
+          gravity: ToastGravity.CENTER
+      );
     }
   }
 
@@ -438,6 +471,8 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
   Future _articlesRefresh() async{
     //rechargement de la liste
     setState(() {
+      _controller1.clear();
+      _selected = "Choisir un exposant";
       DBProvider.db.getAllArticles().then((value) {
         articles = value;
         searchResult = articles;

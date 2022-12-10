@@ -28,8 +28,8 @@ class _ExposantsPageState extends State<ExposantsPage> {
   String critere2 = "";
 
   //controllers de saaisie
-  final TextEditingController controller1 = TextEditingController();
-  final TextEditingController controller2 = TextEditingController();
+  final TextEditingController _controller1 = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
 
   //liste de base
   List<ExposantModel> exposants = List.empty();
@@ -87,12 +87,21 @@ class _ExposantsPageState extends State<ExposantsPage> {
                 child: Column(
                   children: [
                     SelectFormField(
-                      controller: controller2,
+                      controller: _controller2,
                       type: SelectFormFieldType.dropdown, // or can be dialog,
                       items: pavillonItems,
                       decoration: InputDecoration(
                         labelText: 'Trouvez les exposant d\'un pavillon',
                         suffixIcon: Icon(LineIcons.angleDown),
+                        prefixIcon: IconButton(
+                          icon: Icon(LineIcons.timesCircle),
+                          onPressed: ()=>setState(() {
+                            _controller2.clear();
+                            if(_controller1 == ""){
+                              _exposantsRefresh();
+                            }
+                          }),
+                        )
                       ),
                       onChanged: (val){
                         critere2 = removeDiacritics(val.toLowerCase());
@@ -106,11 +115,20 @@ class _ExposantsPageState extends State<ExposantsPage> {
                       },
                     ),
                     TextField(
-                      controller: controller1,
+                      controller: _controller1,
                       maxLength: 50,
                       decoration: InputDecoration(
                         labelText: "Entrez un mot clé",
                         suffixIcon: Icon(LineIcons.search),
+                        prefixIcon: IconButton(
+                          icon: Icon(LineIcons.timesCircle),
+                          onPressed: ()=>setState(() {
+                            _controller1.clear();
+                            if(_controller2 == ""){
+                              _exposantsRefresh();
+                            }
+                          }),
+                        )
                       ),
                       //============== Action lors de la saisie
                       onChanged: (text){
@@ -167,8 +185,8 @@ class _ExposantsPageState extends State<ExposantsPage> {
                         onPressed: (){
                           _chargeExposants();
                           setState(() {
-                            controller1.clear();
-                            controller2.clear();
+                            _controller1.clear();
+                            _controller2.clear();
                           });
                         },
                         child: Text("Tout afficher",
@@ -299,6 +317,8 @@ class _ExposantsPageState extends State<ExposantsPage> {
 
   _chargeExposants(){
     setState(() {
+      _controller1.clear();
+      _controller2.clear();
       DBProvider.db.getAllExposant().then((value) {
         exposants = value;
         searchResult = exposants;
@@ -340,6 +360,12 @@ class _ExposantsPageState extends State<ExposantsPage> {
             gravity: ToastGravity.CENTER
         ));
       });
+    }else{
+      Fluttertoast.showToast(
+          msg: "Une connexion est nécessaire pour effectuer cette action...!",
+          backgroundColor: kDeepOrange.withOpacity(0.5),
+          gravity: ToastGravity.CENTER
+      );
     }
   }
 
@@ -347,6 +373,8 @@ class _ExposantsPageState extends State<ExposantsPage> {
   Future _exposantsRefresh() async{
     //rechargement de la liste
     setState(() {
+      _controller1.clear();
+      _controller2.clear();
       DBProvider.db.getAllExposant().then((value) {
         exposants = value;
         searchResult = exposants;

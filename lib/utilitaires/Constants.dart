@@ -251,6 +251,24 @@ final List<Map<String, dynamic>> pavillonItems = [
     'textStyle': TextStyle(color: kDeepOrange),
   },
   {
+    'value': 'restauration',
+    'label': 'Restauration',
+    'icon': Icon(Icons.check,color: Colors.deepOrange,),
+    'textStyle': TextStyle(color: kDeepOrange),
+  },
+  {
+    'value': 'shopping',
+    'label': 'Espace shopping',
+    'icon': Icon(Icons.check,color: Colors.deepOrange,),
+    'textStyle': TextStyle(color: kDeepOrange),
+  },
+  {
+    'value': 'kiosques',
+    'label': 'Kiosques',
+    'icon': Icon(Icons.check,color: Colors.deepOrange,),
+    'textStyle': TextStyle(color: kDeepOrange),
+  },
+  {
     'value': 'cetef',
     'label': 'CETEF',
     'icon': Icon(Icons.check,color: Colors.deepOrange,),

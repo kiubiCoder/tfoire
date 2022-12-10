@@ -21,7 +21,7 @@ class AgendaPage extends StatefulWidget {
 class _AgendaPageState extends State<AgendaPage> {
 
   String critere1 = "";
-  final TextEditingController controller1 = TextEditingController();
+  final TextEditingController _controller1 = TextEditingController();
 
   //date actuelle
   DateTime selectedDate = DateTime.now();
@@ -81,11 +81,18 @@ class _AgendaPageState extends State<AgendaPage> {
                   child: Column(
                     children: [
                       TextField(
-                        controller: controller1,
+                        controller: _controller1,
                         maxLength: 50,
                         decoration: InputDecoration(
                           labelText: "Entrez les mots clés",
                           suffixIcon: Icon(LineIcons.search),
+                            prefixIcon: IconButton(
+                              icon: Icon(LineIcons.timesCircle),
+                              onPressed: ()=>setState(() {
+                                _controller1.clear();
+                                _refreshEvents();
+                              }),
+                            )
                         ),
                         //============== Action lors de la saisie
                         onChanged: (text){
@@ -159,7 +166,7 @@ class _AgendaPageState extends State<AgendaPage> {
                             onPressed: (){
                               _chargeEvents();
                               setState(() {
-                                controller1.clear();
+                                _controller1.clear();
                               });
                             },
                             child: Text("Tout afficher",
@@ -313,6 +320,12 @@ class _AgendaPageState extends State<AgendaPage> {
           )
         );
       });
+    }else{
+      Fluttertoast.showToast(
+          msg: "Une connexion est nécessaire pour effectuer cette action...!",
+          backgroundColor: kDeepOrange.withOpacity(0.5),
+          gravity: ToastGravity.CENTER
+      );
     }
   }
 

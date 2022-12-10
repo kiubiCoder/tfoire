@@ -29,6 +29,8 @@ class _GalleriePageState extends State<GalleriePage> {
   String critere1 = "";
   String _selected = "Choisir un exposant";
 
+  final TextEditingController _controller1 = TextEditingController();
+
   //List<ExposantModel> ex = List.empty();
   List<GalleryModel> photos = List.empty();
   List<GalleryModel> searchResult = List.empty();
@@ -87,27 +89,38 @@ class _GalleriePageState extends State<GalleriePage> {
                     borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(50.0)),
                   ),
-                  child: Column(
+                  child: Row(
                     children: [
-                      DropdownButton(
-                        isExpanded: true,
-                        hint:  Text(_selected.toString()),
-                        items: galExpo.map((e){
-                          return new DropdownMenuItem(
-                            child: new Text(e.exposant.toString(),),
-                            value: e.exposant.toString(),
-                          );
-                        }).toList(),
-                        onChanged: (val){
-                          critere1 = removeDiacritics(val.toString().toLowerCase());
-                          setState(() {
-                            _selected = val.toString();
-                            searchResult = photos.where((a) {
-                              var nom = a.exposant?.toLowerCase();
-                              return removeDiacritics(nom!).contains(critere1);
-                            }).toList();
-                          });
-                        },
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                             _selected = "Choisir un exposant";
+                             _refreshGallerie();
+                            });
+                          },
+                          icon: Icon(LineIcons.timesCircle)
+                      ),
+                      Expanded(
+                        child: DropdownButton(
+                          isExpanded: true,
+                          hint:  Text(_selected.toString()),
+                          items: galExpo.map((e){
+                            return new DropdownMenuItem(
+                              child: new Text(e.exposant.toString(),),
+                              value: e.exposant.toString(),
+                            );
+                          }).toList(),
+                          onChanged: (val){
+                            critere1 = removeDiacritics(val.toString().toLowerCase());
+                            setState(() {
+                              _selected = val.toString();
+                              searchResult = photos.where((a) {
+                                var nom = a.exposant?.toLowerCase();
+                                return removeDiacritics(nom!).contains(critere1);
+                              }).toList();
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -287,6 +300,12 @@ class _GalleriePageState extends State<GalleriePage> {
             gravity: ToastGravity.CENTER
         ));
       });
+    }else{
+      Fluttertoast.showToast(
+          msg: "Une connexion est nécessaire pour effectuer cette action...!",
+          backgroundColor: kDeepOrange.withOpacity(0.5),
+          gravity: ToastGravity.CENTER
+      );
     }
   }
 
