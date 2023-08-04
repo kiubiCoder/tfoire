@@ -43,7 +43,7 @@ String Logo_foire = 'assets/images/ic_foire.png';
 //maison
 //final String API_BASE_URL = 'http://192.168.104.30:5500/Api/v1/togo2000/';
 //distant
-final String API_BASE_URL = 'http://130.61.126.8:5500/Api/v1/togo2000/';
+final String API_BASE_URL = 'http://161.97.109.219:5500/Api/v1/togo2000/';
 
 //lancement d'url
 Future myUrlLauncher(Uri url) async {

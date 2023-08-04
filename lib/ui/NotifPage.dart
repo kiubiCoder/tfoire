@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:clientfoire/models/ArticleModel.dart';
 import 'package:clientfoire/models/NotifModel.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diacritic/diacritic.dart';
@@ -13,7 +11,7 @@ import 'package:clientfoire/utilitaires/Constants.dart';
 import '../ApiServices/ApiServices.dart';
 import '../database/DBProvider.dart';
 import '../main.dart';
-import 'AgendaPage.dart';
+
 
 class NotifPage extends StatefulWidget {
   const NotifPage({Key? key}) : super(key: key);

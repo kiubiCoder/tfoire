@@ -1,5 +1,4 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:native_notify/native_notify.dart';
 import 'package:clientfoire/database/DBProvider.dart';
 import 'package:clientfoire/ui/BoutiquesPage.dart';
 import 'package:clientfoire/ui/AboutPage.dart';
@@ -76,7 +75,7 @@ Future<void> main() async{
   //Creation de la base de donnee
   DBProvider;
 
-  NativeNotify.initialize(1929, 'ZGX188VXzCTH6qGUWpzJ9H', null, null);
+  //NativeNotify.initialize(1929, 'ZGX188VXzCTH6qGUWpzJ9H', null, null);
   runApp(const MyApp());
 }
 
