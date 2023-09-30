@@ -488,7 +488,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: ListTile(
-                title: Text('17e FL',
+                title: Text('Votre foire',
                   style: TextStyle(
                       color: Colors.black54
                   ),

@@ -265,7 +265,7 @@ class _GalleriePageState extends State<GalleriePage> {
       searchResult = photos;
       if(value.isEmpty){
         Fluttertoast.showToast(
-            msg: "Images de la 17 foire bientôt disponibles !",
+            msg: "Pas de nouvelles images publiées !",
             backgroundColor: kDeepOrange.withOpacity(0.5),
             gravity: ToastGravity.CENTER
         );

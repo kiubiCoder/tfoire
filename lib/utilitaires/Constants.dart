@@ -39,9 +39,7 @@ String Logo_foire = 'assets/images/ic_foire.png';
 //odda
 //final String API_BASE_URL = 'http://192.168.1.127:5500/Api/v1/togo2000/';
 //dsi
-//final String API_BASE_URL = 'http://10.10.21.110:5500/Api/v1/togo2000/';
-//maison
-//final String API_BASE_URL = 'http://192.168.104.30:5500/Api/v1/togo2000/';
+//final String API_BASE_URL = 'http://10.10.21.52:5500/Api/v1/togo2000/';
 //distant
 final String API_BASE_URL = 'http://161.97.109.219:5500/Api/v1/togo2000/';
 
@@ -151,25 +149,25 @@ void  LoadAllPrimaryDataNew(context) async{
     tailleMainAdLocale = await DBProvider.db.countMainAds();
 
 
-    print("Fin de chargement ");
+    //print("Fin de chargement ");
 
-    print("=== Tailles telechargees ");
-    print(tailleExposants);
-    print(tailleEvents);
-    print(tailleNews);
-    print(tailleGallery);
-    print(tailleAds);
-    print(tailleArticles);
-    print(tailleMainAdLocale);
+    //print("=== Tailles telechargees ");
+    // print(tailleExposants);
+    // print(tailleEvents);
+    // print(tailleNews);
+    // print(tailleGallery);
+    // print(tailleAds);
+    // print(tailleArticles);
+    // print(tailleMainAdLocale);
 
-    print("=== Tailles locales");
-    print(tailleExposantsLocale);
-    print(tailleEventsLocale);
-    print(tailleNewsLocale);
-    print(tailleGalleryLocale);
-    print(tailleAdsLocale);
-    print(tailleArticleLocale);
-    print(tailleMainAd);
+    //print("=== Tailles locales");
+    // print(tailleExposantsLocale);
+    // print(tailleEventsLocale);
+    // print(tailleNewsLocale);
+    // print(tailleGalleryLocale);
+    // print(tailleAdsLocale);
+    // print(tailleArticleLocale);
+    // print(tailleMainAd);
 
     //cheick si les donees recues sont au meme nombre que celles inserees dans la base
     if(tailleEvents == await tailleEventsLocale ||

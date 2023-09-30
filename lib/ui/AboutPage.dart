@@ -155,7 +155,7 @@ class _AboutPageState extends State<AboutPage> {
                               child: Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
-                                  child: Text("Pour toute information, contactez le CETEF, organisateur de la Foire Internationale de Lomé",
+                                  child: Text("Pour toute information, contactez le CETEF, organisateur des foires du Togo",
                                     style: TextStyle(
                                         color: kTextGray,
                                         fontSize: 20.0,
@@ -175,11 +175,18 @@ class _AboutPageState extends State<AboutPage> {
                               },
                               child: Container(
                                 child: Center(
-                                  child: Text(Copyright + "\n\nDevelopper @kiubiCoder",
+                                  child: /*Text(Copyright + "\n\nDevelopper @kiubiCoder",
                                     style: TextStyle(
                                       color: Colors.black12
                                     ),
-                                  ),
+                                  ),*/
+                                  Row(
+                                    children: [
+                                      Icon(Icons.legend_toggle,size: 15.0, color: Colors.indigo,),
+                                      Icon(Icons.add_circle,size: 15.0, color: Colors.indigo,),
+                                      Icon(Icons.legend_toggle,size: 15.0, color: Colors.indigo,),
+                                    ],
+                                  )
                                 ),
                               ),
                             )

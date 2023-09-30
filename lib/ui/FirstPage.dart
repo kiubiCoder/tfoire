@@ -63,7 +63,8 @@ class _FirstPageState extends State<FirstPage> {
       body: Stack(
         children: [
           CachedNetworkImage(
-              placeholder: (context, url) => Image.asset("assets/images/ic_foire.png"),
+              //placeholder: (context, url) => Image.asset("assets/images/ic_foire.png"),
+             // placeholder: (context, url) => Image.ne,
               imageUrl: leAdd.first.adLink.toString() != "" ? leAdd.first.adLink.toString() : 'assets/image/ic_foire.png',
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,

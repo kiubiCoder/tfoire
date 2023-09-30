@@ -1,10 +1,11 @@
+
 import 'dart:io';
+
 import 'package:clientfoire/Models/AgendaModel.dart';
 import 'package:clientfoire/models/AdModel.dart';
 import 'package:clientfoire/models/ExposantModel.dart';
 import 'package:clientfoire/models/GallerieModel.dart';
 import 'package:clientfoire/models/NewModel.dart';
-import 'package:date_format/date_format.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,12 +37,24 @@ class DBProvider {
   // Creation de la base de donnees
   initDB() async {
     Directory? documentsDirectory = await getApplicationDocumentsDirectory();
+    //final path = join(documentsDirectory.path, 'foire2000v2.db');
     final path = join(documentsDirectory.path, 'foire2000.db');
     return await openDatabase(
       path, version: 1,
         onOpen: (db) {},
 
         onCreate: (Database db, int version) async {
+
+          //creation de la table info pratique
+          await db.execute(
+              'CREATE TABLE InfoPratique('
+                  'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+                  'details TEXT,'
+                  'ordre TEXT,'
+                  'titre TEXT'
+                  ')'
+          );
+          print("===================  table agenda creee =========================");
 
           //creation de la table des comparatifs
           await db.execute(
@@ -127,15 +140,15 @@ class DBProvider {
           );
           print("===================  tablearticle  =========================");
 
-          /*await db.execute(
+          await db.execute(
               'CREATE TABLE Notif('
-                  'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-                  'dateNotif TEXT,'
-                  'title TEXT,'
-                  'message TEXT,'
-                  'pageCible TEXT'
-                  ')'
-          );*/
+              'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
+              'dateNotif TEXT,'
+              'title TEXT,'
+              'message TEXT,'
+              'pageCible TEXT'
+              ')'
+          );
 
         },
 
@@ -289,10 +302,6 @@ class DBProvider {
 
     return list;
   }
-
-
-
-
 
   //nombre d'exposant
   Future<int?> countGallery() async {
