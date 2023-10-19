@@ -5,7 +5,9 @@ import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'DetailNews.dart';
@@ -111,95 +113,136 @@ class _NewsPageState extends State<NewsPage> {
                     if(events.length ==0){
                       return CircularProgressIndicator();
                     }else{
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (_) => NewsDetails(id: id, data: data)
-                                  )
-                              );
-                            },
-                            child: ListTile(
-                              trailing: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                      if(events.isEmpty){
+                        return Center(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(events[index].jour.toString(),style: TextStyle(
-                                    fontSize: 25.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black26
-                                  ),),
-                                  Text(events[index].annee.toString(),
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        color: Colors.black26
+                                  Expanded(
+                                    child: Lottie.asset('assets/lotties/notfound.json',
+                                      repeat: false,
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
-                                ],
-                              ),
-                              title: Text(events[index].title.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  //fontSize: 20,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              subtitle: Column(
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width * 1.0,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: events[index].image1.toString(),
-                                        placeholder: (context, url) => Icon(LineIcons.image,
-                                          color: Colors.black54,
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 80.0),
+                                    width: MediaQuery.of(context).size.width * 0.5,
+                                    child: ElevatedButton(
+                                      onPressed: (){
+                                        setState(() {
+                                          _chargeNews();
+                                        });
+                                      },
+                                      child: Text("Tout afficher",
+                                        style: TextStyle(
+                                            color: kDeepOrange,
+                                            fontSize: 18.0
                                         ),
-                                        fit: BoxFit.cover,
+                                      ),
+                                      style: ButtonStyle(
+                                          foregroundColor: MaterialStateProperty.all(kDeepOrange),
+                                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                                          padding: MaterialStateProperty.all(EdgeInsets.all(15.0)),
+                                          minimumSize: MaterialStateProperty.all( Size(15, 10))
                                       ),
                                     ),
+                                  )
+                                ]
+                            )
+                        );
+                      }else{
+                        return Column(
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(context,
+                                    MaterialPageRoute(
+                                        builder: (_) => NewsDetails(id: id, data: data)
+                                    )
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)
                                   ),
-                                  /*Padding(
-                                    padding: const EdgeInsets.only(top: 5.0),
-                                    child: ReadMoreText(
-                                      events[index].libelle.toString(),
-                                      trimLines: 2,
-                                      postDataTextStyle: TextStyle(
-                                        color: kDeepOrangeSelf,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      preDataTextStyle: TextStyle(
-                                          color: kDeepOrangeSelf,
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                      trimMode: TrimMode.Line,
-                                      trimCollapsedText: '  Lire plus',
-                                      trimExpandedText: '   Réduire',
-                                      moreStyle: TextStyle(
-                                        color: kDeepOrangeSelf,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18.0,
-                                      ),
-                                      lessStyle: TextStyle(
-                                        color: kDeepOrangeSelf,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18.0,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.06),
+                                      spreadRadius: 7,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: ListTile(
+                                    trailing: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(events[index].jour.toString(),style: TextStyle(
+                                            fontSize: 25.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black26
+                                        ),),
+                                        Text('2023',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              color: Colors.black26
+                                          ),
+                                        ),/*Text(events[index].annee.toString(),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              color: Colors.black26
+                                          ),
+                                        ),*/
+                                      ],
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(events[index].title.toString(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 22,
+                                        ),
+                                        textAlign: TextAlign.left,
                                       ),
                                     ),
-                                  ),*/
-                                ],
-                              )
+                                    subtitle: Column(
+                                      children: [
+                                        Container(
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context).size.width * 1.0,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                              child: CachedNetworkImage(
+                                                imageUrl: events[index].image1.toString(),
+                                                placeholder: (context, url) => Icon(LineIcons.image,
+                                                  color: Colors.black54,
+                                                ),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                              ),
                             ),
-                          ),
-                          SizedBox(
+                            /*SizedBox(
                             height: MediaQuery.of(context).size.height * 0.04,
                             child: Divider(
                               color: kDeepOrange,
                             ),
-                          ),
-                        ],
-                      );
+                          ),*/
+                          ],
+                        );
+                      }
+
                     }
                   }
               ),
@@ -228,7 +271,7 @@ class _NewsPageState extends State<NewsPage> {
       DBProvider.db.deleteAllNews().whenComplete((){
         TfoireApiData().getNewsFromApi().whenComplete(() {
           Fluttertoast.showToast(
-              msg: "Mise à jour terminée, veuillez rafraichir la liste !",
+              msg: "Actualisation ... !",
               backgroundColor: kDeepOrange.withOpacity(0.5),
               gravity: ToastGravity.CENTER
           );

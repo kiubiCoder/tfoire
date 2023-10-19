@@ -14,7 +14,7 @@ class _ShowTicketState extends State<ShowTicket> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        elevation: 0.0,
         title: Text("Mon Pass",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -28,7 +28,7 @@ class _ShowTicketState extends State<ShowTicket> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(
+           /* SizedBox(
               child: QrImage(
                 foregroundColor: kDeepOrange,
                 data: "Ticket valide aujourd'hui",
@@ -43,7 +43,7 @@ class _ShowTicketState extends State<ShowTicket> {
                   );
                 },
               ),
-            ),
+            ),*/
             Text("Faites scanner pour accéder à la foire !",
               style: TextStyle(
                 fontWeight: FontWeight.w700,

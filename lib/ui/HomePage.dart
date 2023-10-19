@@ -1,11 +1,13 @@
 
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clientfoire/Tickets/AchatTickets.dart';
 import 'package:clientfoire/database/DBProvider.dart';
 import 'package:clientfoire/models/AdModel.dart';
 import 'package:clientfoire/ui/17emefoire.dart';
 import 'package:clientfoire/ui/BoutiquesPage.dart';
 import 'package:clientfoire/ui/GalleriePage.dart';
+import 'package:clientfoire/ui/showTicketPage.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -16,6 +18,7 @@ import 'package:clientfoire/Ui/InfosPratiquesPage.dart';
 import 'package:clientfoire/Ui/NewsPage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:clientfoire/ApiServices/ApiServices.dart';
+import '../Tickets/VoirTickets.dart';
 import '../models/ExposantModel.dart';
 
 
@@ -96,7 +99,8 @@ class _HomePageState extends State<HomePage> {
             },
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.2,
-              child: Image.asset("assets/images/ic_foire.png", fit: BoxFit.cover),
+              child: Icon(LineIcons.infoCircle),
+              //child: Image.asset("assets/images/ic_foire.png", fit: BoxFit.cover),
             ),
           ),
         ],
@@ -346,12 +350,17 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       //togocel
                       GestureDetector(
-                        onTap: (){
+                        /*onTap: (){
                           Uri _url = Uri.parse(
                               "whatsapp://send?phone=+22899050505&text="
                                   "FOIRE"
                           );
                           myUrlLauncher(_url);
+                        },*/
+                        onTap: (){
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (_)=> const AchatTicket())
+                          );
                         },
                         child: Card(
                           child: SizedBox(
@@ -369,12 +378,17 @@ class _HomePageState extends State<HomePage> {
 
                       //moov
                       GestureDetector(
-                        onTap: (){
+                        /*onTap: (){
                           Uri _url = Uri.parse(
                               "whatsapp://send?phone=+22899050505&text="
                                   "FOIRE"
                           );
                           myUrlLauncher(_url);
+                        },*/
+                        onTap: (){
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (_)=> const AchatTicket())
+                          );
                         },
                         child: Card(
                           elevation: 0.01,
@@ -428,11 +442,9 @@ class _HomePageState extends State<HomePage> {
         DrawerHeader(
             child: GestureDetector(
               onTap: (){
-                Uri _url = Uri.parse(
-                    "whatsapp://send?phone=+22899050505&text="
-                        "FOIRE"
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_)=> const CheckTicket())
                 );
-                myUrlLauncher(_url);
               },
               child: Card(
                 color: Colors.deepOrange.shade50,
@@ -483,7 +495,7 @@ class _HomePageState extends State<HomePage> {
               onTap: (){
                 Navigator.push(context,
                     MaterialPageRoute(
-                        builder: (_) => const FoireTogo2000()
+                        builder: (_) => const GalleriePage()
                     )
                 );
               },
@@ -562,33 +574,57 @@ class _HomePageState extends State<HomePage> {
   );
 
   _MyCarousel() {
-    return PageView.builder(
-      itemCount: ads.length,
-      //pageSnapping: true,
-      controller: _pageController,
-      onPageChanged: (page){
-        setState(() {
-          activePage = page;
-        });
-      },
-      itemBuilder: (context,pagePosition){
-        //reccuperation de la position active
-        return GestureDetector(
-          onTap: (){
-            Uri _url = Uri.parse(
-                ads[pagePosition].title.toString()
-            );
-            myUrlLauncher(_url);
-          },
-          child: CachedNetworkImage(
-            placeholder: (context, url) => Image.asset("assets/images/ic_foire.png"),
-            imageUrl: ads[pagePosition].adLink.toString() != "" ? ads[pagePosition].adLink.toString() : 'assets/image/ic_foire.png',
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.cover,
+    return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)
           ),
-        );
-      }
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.06),
+              spreadRadius: 7,
+              blurRadius: 5,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+      child: PageView.builder(
+        itemCount: ads.length,
+        //pageSnapping: true,
+        controller: _pageController,
+        onPageChanged: (page){
+          setState(() {
+            activePage = page;
+          });
+        },
+        itemBuilder: (context,pagePosition){
+          //reccuperation de la position active
+          return GestureDetector(
+
+            onTap: (){
+
+              if(ads[pagePosition].title.toString().isEmpty){
+                Uri _url = Uri.parse(
+                    ads[pagePosition].title.toString()
+                );
+                myUrlLauncher(_url);
+              }
+
+            },
+            child: CachedNetworkImage(
+              placeholder: (context, url) => Image.asset("assets/images/ic_foire.png"),
+              imageUrl: ads[pagePosition].adLink.toString() != "" ? ads[pagePosition].adLink.toString() : 'assets/image/ic_foire.png',
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              fit: BoxFit.cover,
+            ),
+          );
+        }
+      ),
     );
   }
 
@@ -600,7 +636,8 @@ class _HomePageState extends State<HomePage> {
         height: 20.0,
         decoration: BoxDecoration(
             color: currentIndex == index ? kDeepOrange : kTmoneyback,
-            shape: BoxShape.circle),
+            shape: BoxShape.circle,
+        ),
       );
     });
   }

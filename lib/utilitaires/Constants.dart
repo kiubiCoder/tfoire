@@ -34,7 +34,7 @@ final String whatsappAssistance = '+22893022193';
 final String APP_VERSION = "1.0.2";
 final String Copyright = "Copyright @ CETEF 2022";
 String PREFKEY = 'appState';
-String Logo_foire = 'assets/images/ic_foire.png';
+String Logo_foire = 'assets/images/cetef.png';
 
 //odda
 //final String API_BASE_URL = 'http://192.168.1.127:5500/Api/v1/togo2000/';
@@ -76,7 +76,7 @@ Future isConnected(context) async{
     LoadAllPrimaryDataNew(context);
   }else{
     AlertDialog(
-      title: Text("Erreur de reccuperation des donnees"),
+      title: Text("Erreur de reccupération des données"),
       actions: [
         TextButton(
           child: const Text('Fermer',
@@ -104,6 +104,7 @@ void  LoadAllPrimaryDataNew(context) async{
   int tailleAds=0;
   int tailleArticles=0;
   int tailleMainAd=0;
+  int tailleInfosPratique = 0;
 
   //tailles des donnees en locale
   int? tailleExposantsLocale=0;
@@ -113,6 +114,7 @@ void  LoadAllPrimaryDataNew(context) async{
   int? tailleAdsLocale=0;
   int? tailleArticleLocale=0;
   int? tailleMainAdLocale=0;
+  int? tailleInfosPratiqueLocale = 0;
 
   await Future.wait([
     TfoireApiData().getExposantsFromApi(),
@@ -122,6 +124,7 @@ void  LoadAllPrimaryDataNew(context) async{
     TfoireApiData().getAllAdsFromApi(),
     TfoireApiData().getAllArticlesFromApi(),
     TfoireApiData().getMainAd(),
+    TfoireApiData().getInfosPratiques(),
   ]).then((response) {
     tailleExposants  = response[0].length;
     tailleEvents  = response[1].length;
@@ -288,7 +291,9 @@ Future timeBaseUpdateJob() async{
                     TfoireApiData().getGalleryFromApi().whenComplete((){
                       TfoireApiData().getAllAdsFromApi().whenComplete((){
                         TfoireApiData().getAllArticlesFromApi().whenComplete((){
-                          TfoireApiData().getMainAd();
+                          TfoireApiData().getMainAd().whenComplete((){
+                            TfoireApiData().getInfosPratiques();
+                          });
                         });
                       });
                     });

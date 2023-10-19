@@ -27,7 +27,7 @@ class _AgendaPageState extends State<AgendaPage> {
   DateTime selectedDate = DateTime.now();
   //definition de l'intervale de temps
   final firstDate = DateTime.now();
-  final lastDate = DateTime(2022,12,31);
+  final lastDate = DateTime(2050,12,31);
 
 
   //lists
@@ -199,8 +199,24 @@ class _AgendaPageState extends State<AgendaPage> {
                 child: ListView.builder(
                     itemCount: searchResult.length,
                     itemBuilder: (context,index){
-                      return Card(
-                        elevation: 0.2,
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.06),
+                              spreadRadius: 7,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
                         margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05,
                             vertical: MediaQuery.of(context).size.height * 0.005),
                         child: ListTile(

@@ -130,7 +130,7 @@ class _AboutPageState extends State<AboutPage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
-                                child: Text("Powerd by",
+                                child: Text("Powered by",
                                   style: TextStyle(
                                       color: kTextGray,
                                       fontSize: 20.0
@@ -155,7 +155,7 @@ class _AboutPageState extends State<AboutPage> {
                               child: Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
-                                  child: Text("Pour toute information, contactez le CETEF, organisateur des foires du Togo",
+                                  child: Text("Pour toutes informations, contactez le CETEF, organisateur des foires du Togo",
                                     style: TextStyle(
                                         color: kTextGray,
                                         fontSize: 20.0,
@@ -165,29 +165,58 @@ class _AboutPageState extends State<AboutPage> {
                                 ),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: (){
-                                Uri _url = Uri.parse(
-                                    "whatsapp://send?phone=+22892868204&text="
-                                        "Bonjour, Je vous écris depuis l'application de la Foire Togo 2000!"
-                                );
-                                myUrlLauncher(_url);
-                              },
-                              child: Container(
-                                child: Center(
-                                  child: /*Text(Copyright + "\n\nDevelopper @kiubiCoder",
-                                    style: TextStyle(
-                                      color: Colors.black12
+                            Container(
+                              child: Center(
+                                child: /*Text(Copyright + "\n\nDevelopper @kiubiCoder",
+                                  style: TextStyle(
+                                    color: Colors.black12
+                                  ),
+                                ),*/
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        Uri _url = Uri.parse(
+                                            "https://kapptech.net"
+                                        );
+                                        myUrlLauncher(_url);
+                                      },
+                                      child: SizedBox(
+                                        height: MediaQuery.of(context).size.height * 0.1,
+                                        width: MediaQuery.of(context).size.width * 0.2,
+                                        child: Image.asset('assets/logos/kappteck.png',fit: BoxFit.contain,),
+                                      ),
                                     ),
-                                  ),*/
-                                  Row(
-                                    children: [
-                                      Icon(Icons.legend_toggle,size: 15.0, color: Colors.indigo,),
-                                      Icon(Icons.add_circle,size: 15.0, color: Colors.indigo,),
-                                      Icon(Icons.legend_toggle,size: 15.0, color: Colors.indigo,),
-                                    ],
-                                  )
-                                ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        Uri _url = Uri.parse(
+                                            "https://manitouconcept.com/"
+                                        );
+                                        myUrlLauncher(_url);
+                                      },
+                                      child: SizedBox(
+                                        height: MediaQuery.of(context).size.height * 0.1,
+                                        width: MediaQuery.of(context).size.width * 0.2,
+                                        child: Image.asset('assets/logos/manitou.png',fit: BoxFit.contain,),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        Uri _url = Uri.parse(
+                                            "https://www.facebook.com/colormycom"
+                                        );
+                                        myUrlLauncher(_url);
+                                      },
+                                      child: SizedBox(
+                                        height: MediaQuery.of(context).size.height * 0.1,
+                                        width: MediaQuery.of(context).size.width * 0.2,
+                                        child: Image.asset('assets/logos/color.png',fit: BoxFit.contain,),
+                                      ),
+                                    ),
+
+                                  ],
+                                )
                               ),
                             )
                           ],

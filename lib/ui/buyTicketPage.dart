@@ -48,7 +48,7 @@ class _BuyTicketState extends State<BuyTicket> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                elevation: 0.2,
+                elevation: 0.0,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 30.0, vertical: 18.0),

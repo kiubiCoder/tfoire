@@ -231,13 +231,21 @@ class _GalleriePageState extends State<GalleriePage> {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.white30,
-                                      blurRadius: 1,
-                                      spreadRadius: 5
-                                  )
-                                ]
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.06),
+                                  spreadRadius: 7,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3), // changes position of shadow
+                                ),
+                              ],
                             ),
                             child: CachedNetworkImage(
                               imageUrl: '${searchResult[index].photoLink}',

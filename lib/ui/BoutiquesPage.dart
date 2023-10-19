@@ -230,8 +230,24 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
                         child: Column(
                           children: [
-                            Card(
-                              elevation: 0.01,
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.06),
+                                    spreadRadius: 7,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ListTile(
@@ -354,12 +370,12 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            /*SizedBox(
                               width: MediaQuery.of(context).size.height * 0.5,
                               child: Divider(
                                 color: kDeepOrange,
                               ),
-                            ),
+                            ),*/
                           ],
                         ),
                       );

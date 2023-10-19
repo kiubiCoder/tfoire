@@ -11,6 +11,7 @@ import 'package:clientfoire/models/VersionsModel.dart';
 import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:dio/dio.dart';
 import '../Models/AgendaModel.dart';
+import '../models/InfoPratiqueModel.dart';
 
 
 class TfoireApiData{
@@ -22,6 +23,7 @@ class TfoireApiData{
     return (response.data as List).map((e){
       //print('exposant $e');
       DBProvider.db.createExposant(ExposantModel.fromJson(e));
+
     }).toList();
   }
 
@@ -102,6 +104,15 @@ class TfoireApiData{
     return (response.data as List)
         .map((rep) => VersionsModel.fromJson(rep))
         .toList();
+  }
+
+  Future getInfosPratiques() async {
+    var url = API_BASE_URL + 'infoPratique/list';
+    Response response = await Dio().get(url);
+    return (response.data as List).map((e){
+      //print('mainAd $e');
+      DBProvider.db.createInfoPratique(InfoPratiqueModel.fromJson(e));
+    }).toList();
   }
 
 }

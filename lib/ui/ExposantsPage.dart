@@ -222,11 +222,27 @@ class _ExposantsPageState extends State<ExposantsPage> {
                         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
                         child: Column(
                           children: [
-                            Card(
-                              elevation: 0.01,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child:  ListTile(
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:  Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.06),
+                                      spreadRadius: 7,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: ListTile(
                                   leading: Container(
                                     margin: EdgeInsets.only(top: 10.0),
                                     width: MediaQuery.of(context).size.width * 0.1,
@@ -297,12 +313,12 @@ class _ExposantsPageState extends State<ExposantsPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            /*SizedBox(
                               width: MediaQuery.of(context).size.height * 0.5,
                               child: Divider(
                                 color: kDeepOrange,
                               ),
-                            ),
+                            ),*/
                           ],
                         ),
                       );

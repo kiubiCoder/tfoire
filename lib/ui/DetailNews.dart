@@ -54,41 +54,60 @@ class _NewsDetailsState extends State<NewsDetails> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-              Expanded(
-                child: ListView(
-                  children: [
-                    Html(
-                        data:
-                        """
-                            <h2 style='font-size: xxx-large;text-align: center;text-decoration: underline;text-transform: uppercase'>${widget.data.title.toString()}</h2><br>
-                        """,
-                    ),
-                    CachedNetworkImage(
-                      imageUrl: widget.data.image1.toString(),
-                      fit: BoxFit.cover,
-                    ),
-                    Html(
-                      data:
-                      """                            
-                            <p>
-                              <span style='font-size: xx-large;font-weight: bold;color: darkgray'>${widget.data.jour.toString()}</span>
-                            </p>
-                            <p style='color: black;font-size: x-large'>
-                              ${widget.data.libelle.toString()}
-                            </p>
-                        """,
-                    ),
-                    CachedNetworkImage(
-                      imageUrl: widget.data.image2.toString(),
-                      fit: BoxFit.cover,
-                    ),
-                  ],
-                ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)
               ),
-            ]
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.06),
+                  spreadRadius: 7,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Html(
+                          data:
+                          """
+                              <h2 style='font-size: xxx-large;text-align: center;text-decoration: underline;text-transform: uppercase'>${widget.data.title.toString()}</h2><br>
+                          """,
+                      ),
+                      CachedNetworkImage(
+                        imageUrl: widget.data.image1.toString(),
+                        fit: BoxFit.cover,
+                      ),
+                      Html(
+                        data:
+                        """                            
+                              <p>
+                                <span style='font-size: xx-large;font-weight: bold;color: darkgray'>${widget.data.jour.toString()}</span>
+                              </p>
+                              <p style='color: black;font-size: x-large'>
+                                ${widget.data.libelle.toString()}
+                              </p>
+                          """,
+                      ),
+                      CachedNetworkImage(
+                        imageUrl: widget.data.image2.toString(),
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  ),
+                ),
+              ]
+            ),
           )
         ),
       ),

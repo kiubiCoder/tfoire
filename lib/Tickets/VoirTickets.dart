@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import 'VoirTickets.dart';
+import 'AchatTickets.dart';
 
-
-class AchatTicket extends StatefulWidget {
-  const AchatTicket({super.key});
+class CheckTicket extends StatefulWidget {
+  const CheckTicket({super.key});
 
   @override
-  State<AchatTicket> createState() => _AchatTicketState();
+  State<CheckTicket> createState() => _CheckTicketState();
 }
 
-class _AchatTicketState extends State<AchatTicket> {
+class _CheckTicketState extends State<CheckTicket> {
 
   double _progress = 0;
   late InAppWebViewController inAppWebViewController;
@@ -32,17 +31,17 @@ class _AchatTicketState extends State<AchatTicket> {
           floatingActionButton: ElevatedButton(
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_)=> const CheckTicket())
+                  context, MaterialPageRoute(builder: (_)=> const AchatTicket())
               );
             },
-            child: Text("Mes Tickets"),
+            child: Text("Acheter un ticket"),
           ),
-          appBar: AppBar(title: Text("Achat de ticket"),),
+          appBar: AppBar(title: Text("Vos tickets"),),
           body: Stack(
             children: [
               InAppWebView(
                 initialUrlRequest: URLRequest(
-                  url: Uri.parse("https://cetef.linkmobileltd.com/pay")
+                    url: Uri.parse("https://cetef.linkmobileltd.com/check")
                 ),
                 onWebViewCreated: (InAppWebViewController controller){
                   inAppWebViewController = controller;
