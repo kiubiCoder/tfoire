@@ -256,6 +256,7 @@ class _ExposantsPageState extends State<ExposantsPage> {
                                     style: TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
+                                      color: kTextGray
                                     ),
                                   ),
                                   subtitle: Column(
@@ -305,6 +306,7 @@ class _ExposantsPageState extends State<ExposantsPage> {
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15.0,
+                                              color: kClearMaroon,
                                           ),
                                         ),
                                       ),

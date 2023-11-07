@@ -207,6 +207,7 @@ class _NewsPageState extends State<NewsPage> {
                                         style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 22,
+                                          color: kTextGray
                                         ),
                                         textAlign: TextAlign.left,
                                       ),

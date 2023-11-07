@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
         centerTitle: true,
         title: const Text(
-          'Foire TOGO 2000',
+          'CETEF TOGO 2000',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25.0
@@ -106,6 +106,12 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage("assets/images/backWhite.png")
+          )
+        ),
         child: Column(
          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -147,13 +153,13 @@ class _HomePageState extends State<HomePage> {
                             child: Text("News",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: kDeepOrange,
+                                color: kTextGray,
                                 fontSize: 15.0,
                                 fontFamily: 'playfair display'
                               ),
                             ),
                           ),
-                          child: Icon(LineIcons.newspaperAlt, size: 60.0, color: kDeepOrange,)
+                          child: Icon(LineIcons.newspaperAlt, size: 60.0, color: kTextGray,)
                       ),
                     ),
                     ElevatedButton(
@@ -179,13 +185,13 @@ class _HomePageState extends State<HomePage> {
                             child: Text("Agenda",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: kDeepOrange,
+                                color: kTextGray,
                                 fontSize: 15.0,
                                 fontFamily: 'playfair display'
                               ),
                             ),
                           ),
-                          child: Icon(LineIcons.addressBook,size: 60.0,color: kDeepOrange,)
+                          child: Icon(LineIcons.addressBook,size: 60.0,color: kTextGray,)
                       ),
                     ),
                     ElevatedButton(
@@ -211,13 +217,13 @@ class _HomePageState extends State<HomePage> {
                             child: Text("Exposants",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: kDeepOrange,
+                                color: kTextGray,
                                 fontSize: 15.0,
                                 fontFamily: 'playfair display'
                               ),
                             ),
                           ),
-                          child: Icon(LineIcons.users,size: 60.0,color: kDeepOrange,)
+                          child: Icon(LineIcons.users,size: 60.0,color: kTextGray,)
                       ),
                     ),
                     ElevatedButton(
@@ -245,11 +251,11 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: 'playfair display',
-                                color: kDeepOrange
+                                color: kTextGray
                               ),
                             ),
                           ),
-                          child: Icon(LineIcons.image,size: 60,color: kDeepOrange,)
+                          child: Icon(LineIcons.image,size: 60,color: kTextGray,)
                       ),
                     ),
                     ElevatedButton(
@@ -276,11 +282,11 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: 'playfair display',
-                                color: kDeepOrange
+                                color: kTextGray
                               ),
                             ),
                           ),
-                          child: Icon(LineIcons.starStruck,size: 60.0,color: kDeepOrange,)
+                          child: Icon(LineIcons.starStruck,size: 60.0,color: kTextGray,)
                       ),
                     ),
                     ElevatedButton(
@@ -307,11 +313,11 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: 'playfair display',
-                                color: kDeepOrange
+                                color: kTextGray
                               ),
                             ),
                           ),
-                          child: Icon(LineIcons.store,size: 60.0,color: kDeepOrange,)
+                          child: Icon(LineIcons.store,size: 60.0,color: kTextGray,)
                       ),
                     ),
                   ],
@@ -336,9 +342,10 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                         child: Text("Achetez votre ticket via",
                             style: TextStyle(
-                                color: kDeepOrange,
+                              fontFamily: 'Roboto',
+                                color: kClearMaroon,
                                 fontSize: MediaQuery.of(context).size.height * 0.02,
-                                fontWeight: FontWeight.w300,
+                                fontWeight: FontWeight.bold,
                             )
                         ),
                       ),
@@ -418,14 +425,14 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Card(
-                        elevation: 0.00,
-                        child: _MyCarousel(),
-                      ),
+                      child: _MyCarousel(),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: indicators(ads.length, activePage),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: indicators(ads.length, activePage),
+                      ),
                     )
                   ],
                 ),
@@ -447,7 +454,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: Card(
-                color: Colors.deepOrange.shade50,
+                color: kClearMaroon,
                 elevation: 0.1,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -462,12 +469,14 @@ class _HomePageState extends State<HomePage> {
                                 Text("Mon PASS",
                                   style: TextStyle(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.bold
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white
                                   ),
                                 ),
                                 Text("Foire Togo2000",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w300
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.white
                                   ),
                                 ),
                               ],
@@ -574,57 +583,48 @@ class _HomePageState extends State<HomePage> {
   );
 
   _MyCarousel() {
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10)
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.06),
-              spreadRadius: 7,
-              blurRadius: 5,
-              offset: const Offset(0, 3), // changes position of shadow
+    return PageView.builder(
+      itemCount: ads.length,
+      //pageSnapping: true,
+      controller: _pageController,
+      onPageChanged: (page){
+        setState(() {
+          activePage = page;
+        });
+      },
+      itemBuilder: (context,pagePosition){
+        //reccuperation de la position active
+        return GestureDetector(
+
+          onTap: (){
+
+            if(ads[pagePosition].title.toString().isEmpty){
+              Uri _url = Uri.parse(
+                  ads[pagePosition].title.toString()
+              );
+              myUrlLauncher(_url);
+            }
+
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.05)),
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                image: NetworkImage(ads[pagePosition].adLink.toString() != "" ? ads[pagePosition].adLink.toString() : 'assets/image/ic_foire.png')
+              )
             ),
-          ],
-        ),
-      child: PageView.builder(
-        itemCount: ads.length,
-        //pageSnapping: true,
-        controller: _pageController,
-        onPageChanged: (page){
-          setState(() {
-            activePage = page;
-          });
-        },
-        itemBuilder: (context,pagePosition){
-          //reccuperation de la position active
-          return GestureDetector(
 
-            onTap: (){
-
-              if(ads[pagePosition].title.toString().isEmpty){
-                Uri _url = Uri.parse(
-                    ads[pagePosition].title.toString()
-                );
-                myUrlLauncher(_url);
-              }
-
-            },
-            child: CachedNetworkImage(
+            /*CachedNetworkImage(
               placeholder: (context, url) => Image.asset("assets/images/ic_foire.png"),
               imageUrl: ads[pagePosition].adLink.toString() != "" ? ads[pagePosition].adLink.toString() : 'assets/image/ic_foire.png',
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               fit: BoxFit.cover,
-            ),
-          );
-        }
-      ),
+            ),*/
+          ),
+        );
+      }
     );
   }
 

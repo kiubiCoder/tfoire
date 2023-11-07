@@ -124,6 +124,13 @@ class _AboutPageState extends State<AboutPage> {
                     ),
                     Expanded(
                       child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage("assets/images/backWhite.png")
+                          ),
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(50.0))
+                        ),
                         height: MediaQuery.of(context).size.height * 1,
                         child: ListView(
                           children: [

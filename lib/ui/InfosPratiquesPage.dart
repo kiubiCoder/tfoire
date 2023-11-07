@@ -85,7 +85,13 @@ class _InfosPratiquePageState extends State<InfosPratiquePage> {
   }
 
   _buldinglist() {
-    return Center(
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage("assets/images/coloredBack.png")
+          ),
+      ),
       child: FutureBuilder(
           future: DBProvider.db.getAllInfosPratiques(),
           builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -147,69 +153,72 @@ class _InfosPratiquePageState extends State<InfosPratiquePage> {
                       itemBuilder: (context,index){
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child:  Container(
-                                  margin: EdgeInsets.only(top: 25,left: 8.0,right: 8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10),
-                                        bottomRight: Radius.circular(10)
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child:  Container(
+                                    margin: EdgeInsets.only(top: 25,left: 8.0,right: 8.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10)
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.06),
+                                          spreadRadius: 7,
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 3), // changes position of shadow
+                                        ),
+                                      ],
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.06),
-                                        spreadRadius: 7,
-                                        blurRadius: 5,
-                                        offset: const Offset(0, 3), // changes position of shadow
+                                    child: ListTile(
+                                      leading: Icon(LineIcons.handPointingRight,),
+                                      title: Text(listInfoPratique[index].titre.toString() != null ? listInfoPratique[index].titre.toString() : "",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20.0,
+                                            color: kTextGray
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                  child: ListTile(
-                                    leading: Icon(LineIcons.handPointingRight,),
-                                    title: Text(listInfoPratique[index].titre.toString() != null ? listInfoPratique[index].titre.toString() : "",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20.0
-                                      ),
-                                    ),
-                                    subtitle: ReadMoreText(
-                                      listInfoPratique[index].details.toString() != null ? listInfoPratique[index].details.toString() : "",
-                                      trimLines: 5,
-                                      style: TextStyle(
-                                          fontSize: 18.0
-                                      ),
-                                      postDataTextStyle: TextStyle(
-                                        color: kDeepOrangeSelf,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      preDataTextStyle: TextStyle(
+                                      subtitle: ReadMoreText(
+                                        listInfoPratique[index].details.toString() != null ? listInfoPratique[index].details.toString() : "",
+                                        trimLines: 5,
+                                        style: TextStyle(
+                                            fontSize: 18.0
+                                        ),
+                                        postDataTextStyle: TextStyle(
                                           color: kDeepOrangeSelf,
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                      trimMode: TrimMode.Line,
-                                      trimCollapsedText: '  Lire plus',
-                                      trimExpandedText: '   Réduire',
-                                      moreStyle: TextStyle(
-                                        color: kDeepOrangeSelf,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18.0,
-                                      ),
-                                      lessStyle: TextStyle(
-                                        color: kDeepOrangeSelf,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18.0,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        preDataTextStyle: TextStyle(
+                                            color: kDeepOrangeSelf,
+                                            fontWeight: FontWeight.w400
+                                        ),
+                                        trimMode: TrimMode.Line,
+                                        trimCollapsedText: '  Lire plus',
+                                        trimExpandedText: '   Réduire',
+                                        moreStyle: TextStyle(
+                                          color: kClearMaroon,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 18.0,
+                                        ),
+                                        lessStyle: TextStyle(
+                                          color: kClearMaroon,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 18.0,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       }

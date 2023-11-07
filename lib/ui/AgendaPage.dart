@@ -110,7 +110,7 @@ class _AgendaPageState extends State<AgendaPage> {
                       SizedBox(height: 15.0,),
                       ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(kDeepOrange),
+                            backgroundColor: MaterialStateProperty.all(kDarkMaroon),
                           ),
                           onPressed: () => _OpenDatePicker(context),
                           child: Row(
@@ -233,7 +233,8 @@ class _AgendaPageState extends State<AgendaPage> {
                                       Text('${searchResult[index].date != null ? searchResult[index].date : "" }',
                                         style: TextStyle(
                                             fontSize: 20.0,
-                                            fontWeight: FontWeight.w300
+                                            fontWeight: FontWeight.w300,
+                                            color: kClearMaroon
                                         ),
                                       ),
                                     ],
@@ -242,7 +243,8 @@ class _AgendaPageState extends State<AgendaPage> {
                                     children: [
                                       Text('${searchResult[index].time != null ? searchResult[index].time : ""}',
                                         style: TextStyle(
-                                            fontWeight: FontWeight.w700
+                                            fontWeight: FontWeight.w700,
+                                            color: kClearMaroon
                                         ),
                                       ),
                                     ],
@@ -255,7 +257,7 @@ class _AgendaPageState extends State<AgendaPage> {
                             style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w700,
-                                color: kDeepOrange
+                                color: kTextGray
                             ),
                           ),
                           subtitle: Text('${searchResult[index].libelle != null ? searchResult[index].libelle : ""}'),

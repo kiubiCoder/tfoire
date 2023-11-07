@@ -1,3 +1,4 @@
+import 'package:clientfoire/utilitaires/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -27,39 +28,41 @@ class _AchatTicketState extends State<AchatTicket> {
         }
         return true;
       },
-      child: SafeArea(
-        child: Scaffold(
-          floatingActionButton: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_)=> const CheckTicket())
-              );
-            },
-            child: Text("Mes Tickets"),
+      child: Scaffold(
+        floatingActionButton: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(kClearMaroon),
+            padding: MaterialStateProperty.all(EdgeInsets.all(15.0))
           ),
-          appBar: AppBar(title: Text("Achat de ticket"),),
-          body: Stack(
-            children: [
-              InAppWebView(
-                initialUrlRequest: URLRequest(
-                  url: Uri.parse("https://cetef.linkmobileltd.com/pay")
-                ),
-                onWebViewCreated: (InAppWebViewController controller){
-                  inAppWebViewController = controller;
-                },
-                onProgressChanged: (InAppWebViewController controller, int progress){
-                  setState(() {
-                    _progress = _progress / 100;
-                  });
-                },
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_)=> const CheckTicket())
+            );
+          },
+          child: Text("Mes Tickets", style: TextStyle(fontSize: 25.0),),
+        ),
+        appBar: AppBar(title: Text("Achat de ticket"),elevation: 0.0,),
+        body: Stack(
+          children: [
+            InAppWebView(
+              initialUrlRequest: URLRequest(
+                url: Uri.parse("https://cetef.linkmobileltd.com/pay")
               ),
-              _progress < 1 ? Container(
-                child: LinearProgressIndicator(
-                  value: _progress,
-                ),
-              ):SizedBox()
-            ],
-          ),
+              onWebViewCreated: (InAppWebViewController controller){
+                inAppWebViewController = controller;
+              },
+              onProgressChanged: (InAppWebViewController controller, int progress){
+                setState(() {
+                  _progress = _progress / 100;
+                });
+              },
+            ),
+            /*_progress < 1 ? Container(
+              child: LinearProgressIndicator(
+                value: _progress,
+              ),
+            ):SizedBox()*/
+          ],
         ),
       ),
     );

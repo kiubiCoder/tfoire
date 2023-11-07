@@ -2,7 +2,7 @@
     package="com.cetef.foiretogo">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="Foire Togo 2000"
+        android:label="CETEF TOGO 2000"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

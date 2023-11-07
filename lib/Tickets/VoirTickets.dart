@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import '../utilitaires/Constants.dart';
 import 'AchatTickets.dart';
 
 class CheckTicket extends StatefulWidget {
@@ -26,18 +27,22 @@ class _CheckTicketState extends State<CheckTicket> {
         }
         return true;
       },
-      child: SafeArea(
-        child: Scaffold(
-          floatingActionButton: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_)=> const AchatTicket())
-              );
-            },
-            child: Text("Acheter un ticket"),
+      child: Scaffold(
+        floatingActionButton: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(kClearMaroon),
+              padding: MaterialStateProperty.all(EdgeInsets.all(15.0))
           ),
-          appBar: AppBar(title: Text("Vos tickets"),),
-          body: Stack(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_)=> const AchatTicket())
+            );
+          },
+          child: Text("Achat de tickets", style: TextStyle(fontSize: 25.0),),
+        ),
+        appBar: AppBar(title: Text("Vos tickets"),elevation: 0.0,),
+        body: Container(
+          child: Stack(
             children: [
               InAppWebView(
                 initialUrlRequest: URLRequest(
@@ -52,11 +57,11 @@ class _CheckTicketState extends State<CheckTicket> {
                   });
                 },
               ),
-              _progress < 1 ? Container(
+              /*_progress < 1 ? Container(
                 child: LinearProgressIndicator(
                   value: _progress,
                 ),
-              ):SizedBox()
+              ):SizedBox()*/
             ],
           ),
         ),

@@ -14,19 +14,34 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
 
-//couleurs constantes
-const kTextGray = Color(0XFFB8B8B8);
+
+
+
+//=nouvelle charte graphique
+
+const kTextGray = Color(0XFF000000);
 const kDarkGreen = Color(0XFF3D7C47);
-const kYellow = Color(0XFF841400);
-const kDarkMaroon = Color(0XFF4E0C03);
-//const kDeepOrange = Color(0XFF841400);
-const kDeepOrange = Color(0XFF603913);
-const kClearMaroon = Color(0XFF841400);
+const kYellow = Color(0XFFfc200);
+const kDarkMaroon = Color(0XFF009152);
+const kDeepOrange = Color(0XFF009152);
+const kClearMaroon = Color(0XFFe30512);
 const kVermillon = Color(0XFFE94F49);
-//const kDeepOrange = Color(0XFFDF0024);
 const kDeepOrangeSelf = Color(0XFF841400);
 const kFloozback = Color(0XFFEC6607);
 const kTmoneyback = Color(0XFFFADB16);
+
+//Ancienne charte graphique
+
+/*const kTextGray = Color(0XFFB8B8B8);
+const kDarkGreen = Color(0XFF3D7C47);
+const kYellow = Color(0XFF841400);
+const kDarkMaroon = Color(0XFF4E0C03);
+const kDeepOrange = Color(0XFF603913);
+const kClearMaroon = Color(0XFF841400);
+const kVermillon = Color(0XFFE94F49);
+const kDeepOrangeSelf = Color(0XFF841400);
+const kFloozback = Color(0XFFEC6607);
+const kTmoneyback = Color(0XFFFADB16);*/
 
 //22200060094892
 

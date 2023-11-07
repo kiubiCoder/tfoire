@@ -124,12 +124,12 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: kDeepOrange,
         ),
         textTheme: TextTheme(
-          headline1: TextStyle(color: kDeepOrange),
-          headline2: TextStyle(color: kDeepOrange),
-          bodyText2: TextStyle(color: kDeepOrange),
-          subtitle1: TextStyle(color: kDeepOrange),
+          headline1: TextStyle(color: kDarkMaroon),
+          headline2: TextStyle(color: kDarkMaroon),
+          bodyText2: TextStyle(color: kDarkMaroon),
+          subtitle1: TextStyle(color: kDarkMaroon),
         ),
-        primaryColor: kDeepOrange,
+        primaryColor: kClearMaroon,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 

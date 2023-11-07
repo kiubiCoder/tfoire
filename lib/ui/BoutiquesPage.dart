@@ -273,7 +273,8 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                                   title: Text(searchResult[index].libelle.toString() != "" ? searchResult[index].libelle.toString() : "",
                                     style: TextStyle(
                                         fontSize: 18.0,
-                                        fontWeight: FontWeight.w400
+                                        fontWeight: FontWeight.bold,
+                                        color: kTextGray
                                     ),
                                   ),
                                   subtitle: Container(
@@ -355,6 +356,7 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                                           style: TextStyle(
                                             decoration: TextDecoration.lineThrough,
                                             fontSize: 18.0,
+                                              color: kClearMaroon,
                                           )
                                       ),
                                       Text(searchResult[index].prixBase != null
@@ -362,7 +364,8 @@ class _BoutiquesPageState extends State<BoutiquesPage> {
                                           : "Prix sur demande",
                                         style: TextStyle(
                                             fontSize: 18.0,
-                                            fontWeight: FontWeight.bold
+                                            fontWeight: FontWeight.bold,
+                                            color: kTextGray
                                         ),
                                       ),
                                     ],
